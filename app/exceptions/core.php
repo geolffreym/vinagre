@@ -11,7 +11,7 @@ $exception[ 'noTransactionActive' ]  = 'Uninitialized transaction.';
 $exception[ 'cantConnectFTP' ]       = 'Error Connecting FTP.';
 $exception[ 'errorTemplateHandler' ] = 'Template cannot be handled.';
 $exception[ 'badConfMemcached' ]     = 'Server Ip, Port and Weight needed to connect MemCached';
-$exception[ 'invalidInstance' ]      = 'Server Ip, Port and Weight needed to connect MemCached';
+$exception[ 'invalidInstance' ]      = 'Invalid Instance';
 $exception[ 'invalidIp' ]            = 'Valid Ip Needed';
 
 \core\Exception::setCollection ( $exception );
