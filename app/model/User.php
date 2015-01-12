@@ -35,7 +35,7 @@ class User extends Model
             ->on ( [ $_information( 'id' ) => $this( 'id' ) ] )
             ->group ( [ $_information( 'name' ) ] )
             ->where ( $Q->in ( $_information( 'id' ), [ 5, 6 ] ) )
-            ->order ( [ $_information( 'id' ), $this( 'id' ) ] )->result ();
+            ->order ( [ $_information( 'id' ), $this( 'id' ) ] )->result ()->row();
 
     }
 
