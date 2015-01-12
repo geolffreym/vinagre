@@ -1,0 +1,8 @@
+#Ignora los archivos de configuracion
+
+#Idea
+.idea/*
+
+#Images
+public/assets
+public/media

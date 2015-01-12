@@ -1,0 +1,9 @@
+application: sage-momentum-633
+version: 1
+runtime: php
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: .*
+  script: public/ini.php

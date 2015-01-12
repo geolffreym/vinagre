@@ -1,0 +1,11 @@
+{
+
+    "git": {
+        "php-login": "https://github.com/panique/php-login.git"
+    },
+    "svn": {
+        "wiki": "http://svn.wikimedia.org/svnroot/mediawiki/trunk/phase3"
+    }
+
+}
+
