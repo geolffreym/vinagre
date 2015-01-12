@@ -42,6 +42,10 @@ The autoload function is provided by the framework Loader , allowing autoloading
 Learning
 =========
 
+General Topics
+--------------
+*Pending Documentation*
+
 Languages and Translation
 ------------------------
 *Pending Documentation*
