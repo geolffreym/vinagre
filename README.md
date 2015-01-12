@@ -44,38 +44,47 @@ Learning
 
 Languages and Translation
 ------------------------
-
+*Pending Documentation*
 
 Exceptions
 ----------
+*Pending Documentation*
 
 Libs
 ----
+*Pending Documentation*
 
 Sparks
 ------
+*Pending Documentation*
 
 Security
 ------
+*Pending Documentation*
 
 Traits
 -----
+*Pending Documentation*
 
 Helpers
 -----
-
+*Pending Documentation*
 
 Our App
 ======
 
 URL
 -----
+*Pending Documentation*
 
 Controllers
 -----------
+*Pending Documentation*
 
 Models
 -------
+*Pending Documentation*
 
 Views
 -----
+*Pending Documentation*
