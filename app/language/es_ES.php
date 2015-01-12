@@ -8,7 +8,7 @@
 
 use core\Language;
 
-$lang[ 'title' ] = "Rid - Red de Informaci&oacute;n Din&aacute;mica";
+$lang[ 'title' ] = "My Title";
 
 //FORM
 $lang[ 'form_full_name' ] = "Escriba su nombre completo";

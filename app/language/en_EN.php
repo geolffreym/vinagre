@@ -7,7 +7,7 @@
  */
 use core\Language;
 
-$lang[ 'title' ]           = "DNI - Dynamic Network Information";
+$lang[ 'title' ] = "My Title";
 
 //FORM
 $lang[ 'form_full_name' ] = 'Write your fullname';
