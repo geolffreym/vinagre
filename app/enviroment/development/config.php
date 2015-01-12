@@ -18,9 +18,9 @@ define( 'ACTIVE_GZIP', FALSE );
 
 //DB (Db Install needed)
 define( 'DB_HOST', 'localhost' );
-define( 'DB_USER', 'root' );
-define( 'DB_PASS', 'gmena5289' );
-define( 'DB_DATABASE', 'localconnection' );
+define( 'DB_USER', '' );
+define( 'DB_PASS', '' );
+define( 'DB_DATABASE', '' );
 define( 'DB_DRIVER', 'mysqli' );
 define( 'DB_CACHE', FALSE );
 define( 'DB_ASYNC', TRUE );
@@ -31,9 +31,9 @@ define( 'DB_READ_DEFAULT_FILE', '' );
 
 
 //Mail
-define( 'MAIL_USER', 'AKIAJ7JDS52XV5CLN7VQ' );
-define( 'MAIL_PASSWORD', 'AnegzYehwmFBVAtP+bR/SMlYZue2Ad54qCVEAnz2eiPY' );
-define( 'HOST_HOST', 'ssl://email-smtp.us-east-1.amazonaws.com' );
+define( 'MAIL_USER', '' );
+define( 'MAIL_PASSWORD', '' );
+define( 'HOST_HOST', '' );
 define( 'MAIL_PORT', '443' );
 
 //Memcached (Install Needed)
@@ -71,6 +71,6 @@ define( 'FTP_PASS', '' );
 
 
 //Google Captcha
-define( 'CAPTCHA_SERVER', "www.google.com" );
-define( 'CAPTCHA_PUBLIC_KEY', "6Le6ndQSAAAAAN-8KRrp09ZOJIors5m5WxCktVh9" );
-define( 'CAPTCHA_PRIVATE_KEY', "6Le6ndQSAAAAAMw4mHvoK8fmMHtSU7ylJIOANRX-" );
+define( 'CAPTCHA_SERVER', "" );
+define( 'CAPTCHA_PUBLIC_KEY', "" );
+define( 'CAPTCHA_PRIVATE_KEY', "" );
