@@ -18,13 +18,6 @@ class Router
     private static $_matched = [ ];
     private static $_response = NULL;
 
-    private static function _makeUrl ( iURL $URL )
-    {
-        $_URL = explode ( '/', rtrim ( $URL->URI, '/' ) );
-
-        return array_pop ( $_URL );
-    }
-
     private static function _queryParse ( &$_output )
     {
         if ( isset( $_output[ 'query' ] ) ) {
@@ -44,6 +37,14 @@ class Router
         return NULL;
     }
 
+    private static function appendUri ( &$ValidURLS )
+    {
+        $ValidURLS->uri = App::__exist__ ( $ValidURLS->controller, 'controller' ) && !empty( $ValidURLS->uri )
+            ? str_replace ( $ValidURLS->controller, '', strtolower ( $ValidURLS->uri ) )
+            : $ValidURLS->uri;
+        $ValidURLS->uri = ltrim ( $ValidURLS->uri, '/' );
+    }
+
     public static function getMatched ()
     {
         return self::$_matched;
@@ -51,32 +52,35 @@ class Router
 
     public static function matchRoute ( iURL $URL )
     {
-        foreach ( $URL->getUrl () as $Regex => $ValidURLS ) {
-            $_Regex = '/' . $Regex . '/';
-            if ( @preg_match ( $_Regex, rtrim ( $URL->URI, '/' ), $_output ) ) {
+        foreach ( $URL->getUrl () as $ValidURLS ) {
+            $_Regex = $ValidURLS->regex;
+            self::appendUri ( $ValidURLS );
+            //breakPoint ( $ValidURLS );
+            if ( isset( $ValidURLS->app ) ) {
+                if ( @preg_match ( $_Regex, rtrim ( $ValidURLS->uri, '/' ), $_output ) ) {
+                    Exception::create ( function () use ( $ValidURLS ) {
+                            return $ValidURLS->app instanceof iController;
+                        }, 'The instance of the ' . get_class ( $ValidURLS ) . ' must be ' . 'iDBController'
+                    );
 
-                Exception::create ( function () use ( $ValidURLS ) {
-                        return $ValidURLS instanceof iController;
-                    }, 'The instance of the ' . get_class ( $ValidURLS ) . ' must be ' . 'iDBController'
-                );
+                    self::$_method                     = $ValidURLS->app->Method;
+                    self::$_matched[ $ValidURLS->uri ] = $_Regex;
 
-                self::$_method               = $ValidURLS->Method;
-                self::$_matched[ $URL->URI ] = $_Regex;
+                    if ( self::$_method !== 'POST' ) {
+                        self::_queryParse ( $_output );
+                        $ValidURLS->appRequest = $_request = (object) DataStructure::cleanNumericKeys ( $_output );
+                        $_action               = isset( $_request->action )
+                            ? $_request->action
+                            : FALSE;
 
-                if ( self::$_method !== 'POST' ) {
-                    self::_queryParse ( $_output );
+                        self::$_response = method_exists ( $ValidURLS->app, $_action )
+                            ? $ValidURLS->app->{$_action}() : $ValidURLS->app->__init ();
+                    }
 
-                    $ValidURLS->Request = $_request = (object) DataStructure::cleanNumericKeys ( $_output );
-                    $_action            = isset( $_request->action )
-                        ? $_request->action
-                        : self::_makeUrl ( $URL );
-
-                    self::$_response = method_exists ( $ValidURLS, $_action )
-                        ? $ValidURLS->{$_action}() : $ValidURLS->__init ();
+                    break;
                 }
-
-                break;
             }
+
         };
     }
 

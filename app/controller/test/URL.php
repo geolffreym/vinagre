@@ -5,7 +5,7 @@
  * Date: 07-03-14
  * Time: 12:13 PM
  */
-namespace core\uri\index;
+namespace core\uri\test;
 
 use core\App;
 use core\interfaces\iURL;

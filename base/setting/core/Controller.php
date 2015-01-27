@@ -15,6 +15,7 @@ abstract class Controller implements iController
 
     public $Request = NULL;
     public $Method = NULL;
+    public $Name = NULL;
 
     private static $_class = [ ];
     protected $_controller = NULL;
@@ -25,8 +26,8 @@ abstract class Controller implements iController
     public function __construct ()
     {
 
-        $this->Method = $_SERVER[ 'REQUEST_METHOD' ];
-
+        $this->Method  = $_SERVER[ 'REQUEST_METHOD' ];
+        $this->Name    = get_called_class ();
         $this->_loader = new Loader;
         $this->_loader->__init ( $this );
 

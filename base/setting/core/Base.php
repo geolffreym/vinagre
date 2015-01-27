@@ -6,7 +6,6 @@
  * Time: 10:10 AM
  */
 namespace core;
-
 require_once ( SETTING_PATH . '/core/Application.php' );
 
 define( 'B_VERSION', '1.0' );
@@ -33,6 +32,18 @@ App::__interface__ ( 'iFactory', 'interface' );
 
 
 //////////////////BASIC REQUIRE//////////////////
+
+//Functions Util
+App::__require__ ( 'Util', 'functions' );
+
+//Functions Debug
+App::__require__ ( 'Debug', 'functions' );
+
+//Functions Route
+App::__require__ ( 'Router', 'functions' );
+
+//Controller Util Support
+App::__require__ ( 'Util', 'traits' );
 
 //Controller Class
 App::__require__ ( 'URI', 'core' );
@@ -77,7 +88,7 @@ if ( defined ( 'ACTIVE_GZIP' ) ) {
 }
 
 //////////////////ROUTING//////////////////
-$URI = URI::checkURI ( $_SERVER[ 'REQUEST_URI' ] );
-//var_dump($URI);die();
-Router::matchRoute ( $URI );
+//URI Object
+$URI = new URI( $_SERVER[ 'REQUEST_URI' ] );
+Router::matchRoute ( $URI->checkUri () );
 Router::writeResponse ();

@@ -14,13 +14,17 @@ define( 'DEFAULT_LANGUAGE', 'en_EN' );
 define( 'DEFAULT_CHARSET', 'UTF-8' );
 
 //GZIP
-define( 'ACTIVE_GZIP', FALSE );
+define( 'ACTIVE_GZIP', TRUE );
+
+
+//DEFAULT ERROR PAGES
+define( 'DEFAULT_404_VIEW', '' );
 
 //DB (Db Install needed)
 define( 'DB_HOST', 'localhost' );
-define( 'DB_USER', '' );
-define( 'DB_PASS', '' );
-define( 'DB_DATABASE', '' );
+define( 'DB_USER', 'root' );
+define( 'DB_PASS', 'gmena5289' );
+define( 'DB_DATABASE', 'posgrado' );
 define( 'DB_DRIVER', 'mysqli' );
 define( 'DB_CACHE', FALSE );
 define( 'DB_ASYNC', TRUE );

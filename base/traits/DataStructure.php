@@ -7,7 +7,6 @@
  */
 namespace core\traits;
 
-use core\helper\ArrayHelper;
 use RecursiveArrayIterator;
 use RecursiveCallbackFilterIterator;
 use RecursiveRegexIterator;
@@ -15,25 +14,6 @@ use RegexIterator;
 
 trait DataStructure
 {
-
-    /**Fragmenta un arreglo en arreglos independientes
-     * */
-    public static function fragmentArray ( $array )
-    {
-        if ( !is_array ( $array ) ) {
-            return [ ];
-        }
-
-        /**
-         * foreach ($array as list($a, $b)) {
-         * // $a contiene el primer elemento del array interior,
-         * // y $b contiene el segundo elemento.
-         * echo "A: $a; B: $b\n";
-         * }
-         */
-
-        return ArrayHelper::tourArray ( $array );
-    }
 
     /* public static function array_list($_array, $_list)
      {
@@ -70,7 +50,7 @@ trait DataStructure
         }
         foreach ( $_array as $key => $value ) {
             yield $n[ $key ] = $key . $_delimiter . ( is_string ( $value )
-                    ? "\"" . $value . "\"" : $value );
+                    ? wrapStr ( $value, "\"" ) : $value );
         }
     }
 
@@ -89,7 +69,7 @@ trait DataStructure
         foreach ( $a as $k => $v ) {
             if ( isset( $b[ $k ] ) ) {
                 yield $v . $s . ( is_string ( $b[ $k ] )
-                        ? "\"" . $b[ $k ] . "\"" : $b[ $k ] );
+                        ? wrapStr ( $b[ $k ], "\"" ) : $b[ $k ] );
             } else {
                 yield $v;
             }

@@ -5,20 +5,15 @@
  * Date: 07-03-14
  * Time: 12:13 PM
  */
-namespace core\uri\index;
-
-use core\App;
 use core\interfaces\iURL;
-
-App::__require__ ( 'Index', 'controller/index' );
 
 class URL implements iURL
 {
     public function getUrl ()
     {
         return [
-            url ( '^$', \Index::asView () ),
-            url ( '^(?<action>view)', \Index::asView () ),
+            url ( '^$', append ( 'index.url' ) ),
+            url ( '^test', append ( 'test.url' ) )
         ];
     }
 }

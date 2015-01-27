@@ -23,6 +23,14 @@ class Common
 
     public static function error404 ( $_message )
     {
+        if ( defined ( 'DEFAULT_404_PAGE' ) ) {
+            if ( Config::findConfig ( 'DEFAULT_404', [ 'DEFAULT_404_PAGE' ] ) ) {
+                if ( App::__exist__ ( DEFAULT_404_VIEW, 'template/error' ) ) {
+                    echo App::__render__ ( DEFAULT_404_VIEW, [ ], 'template/error' );
+                    die();
+                }
+            }
+        }
         header ( 'HTTP/1.1 404 Page Not Found.', TRUE, 404 );
         die( $_message );
     }

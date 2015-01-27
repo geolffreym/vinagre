@@ -77,16 +77,6 @@ trait Strings
         return utf8_decode ( trim ( ucwords ( $_string ) ) );
     }
 
-    /**Encapsula cadena
-     * @param $string
-     * @param wrap
-     * @return String
-     */
-    public static function wrap ( $string, $wrap )
-    {
-        return $wrap . $string . $wrap;
-    }
-
     /**Recorta texto
      * @texto  string
      * @limite integer

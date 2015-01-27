@@ -65,11 +65,11 @@ class App
     public static function __instance__ ( $_class, $_dir, $_namespace = NULL, $_param = FALSE )
     {
         if ( self::__require__ ( $_class, $_dir ) ) {
-           // if ( !class_exists ( $_class ) ) {
-                $_namespace = isset( $_namespace ) ? $_namespace . '\\' . $_class : $_class;
+            // if ( !class_exists ( $_class ) ) {
+            $_namespace = isset( $_namespace ) ? $_namespace . '\\' . $_class : $_class;
 
-                return $_param ? new $_namespace( $_param ) : new $_namespace;
-           // }
+            return $_param ? new $_namespace( $_param ) : new $_namespace;
+            // }
 
         }
 
@@ -137,9 +137,9 @@ class App
                 Exception::throwException ( 'errorTemplateHandler' );
             };
 
-        } else {
-            return FALSE;
         }
+
+        return FALSE;
 
     }
 
@@ -158,6 +158,7 @@ class App
      * */
     public static function __redirect__ ( $_url )
     {
+        header ( 'HTTP/1.1 301 Moved Permanently.', TRUE, 404 );
         header ( 'Location:' . $_url );
     }
 

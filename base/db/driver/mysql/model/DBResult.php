@@ -12,14 +12,12 @@ namespace core\db\mysql\model;
 use core\App;
 use core\interfaces\db\iDBConnection;
 use core\interfaces\db\iDBResult;
-use core\traits\Util;
 
 App::__interface__ ( 'iDBResult', 'db/interface' );
 
 class DBResult implements iDBResult
 {
 
-    use Util;
     private static $_object;
     private static $_is_connected;
     private static $_connection;
@@ -46,7 +44,7 @@ class DBResult implements iDBResult
 
     public static function setQuery ( $_query )
     {
-        self::assert ( $_query, "Query Needed" );
+        asserts ( $_query, "Query Needed" );
         self::$_query = $_query;
     }
 
@@ -64,7 +62,7 @@ class DBResult implements iDBResult
     {
         if ( self::$_is_connected ) {
             self::_queryImpose ( $_query, $_callback );
-            self::assert ( $_query, "Query Needed", self::$_query );
+            asserts ( $_query, "Query Needed", self::$_query );
             self::execute ( $_query, function ( $result )
                 use ( $_callback ) {
                     $res = $result->num_rows ();
@@ -85,7 +83,7 @@ class DBResult implements iDBResult
     {
         if ( self::$_is_connected ) {
             self::_queryImpose ( $_query, $_callback );
-            self::assert ( $_query, "Query Needed", self::$_query );
+            asserts ( $_query, "Query Needed", self::$_query );
             self::execute ( $_query, function ( $result )
                 use ( $_callback ) {
                     $_count = [ ];
@@ -108,7 +106,7 @@ class DBResult implements iDBResult
     public static function rowGroupMultiQuery ( $_query )
     {
 
-        self::assert ( $_query, "Query Needed", self::$_query );
+        asserts ( $_query, "Query Needed", self::$_query );
         if ( self::$_connection->multi_query ( $_query ) ) {
             $array = [ ];
             do {
@@ -142,7 +140,7 @@ class DBResult implements iDBResult
         if ( self::$_is_connected ) {
             $_async = ( defined ( 'DB_ASYNC' ) && DB_ASYNC ) || self::$_async;
             self::_queryImpose ( $_query, $_callback );
-            self::assert ( $_query, "Query Needed", self::$_query );
+            assert ( $_query, "Query Needed", self::$_query );
 
 
             $_query = self::$_connection->query ( $_query, $_async ? MYSQLI_ASYNC : NULL );
@@ -189,7 +187,7 @@ class DBResult implements iDBResult
     {
         if ( self::$_is_connected ) {
             self::_queryImpose ( $_query, $_callback );
-            self::assert ( $_query, "Query Needed", self::$_query );
+            asserts ( $_query, "Query Needed", self::$_query );
             self::execute ( $_query, function ( $result )
                 use ( $_callback ) {
                     App::__callback__ ( $_callback, $result->fetch_assoc () );
@@ -214,7 +212,7 @@ class DBResult implements iDBResult
     public static function rowGroup ( $_query, $_callback )
     {
         self::_queryImpose ( $_query, $_callback );
-        self::assert ( $_query, "Query Needed", self::$_query );
+        asserts ( $_query, "Query Needed", self::$_query );
         self::execute ( $_query, function ( $result )
             use ( $_callback ) {
                 $_group = [ ];
@@ -230,7 +228,7 @@ class DBResult implements iDBResult
 
     private static function _queryImpose ( &$_query, &$_callback )
     {
-        if ( self::isFunction ( $_query ) ) {
+        if ( isFunction ( $_query ) ) {
             $_callback = $_query;
             $_query    = NULL;
         }

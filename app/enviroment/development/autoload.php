@@ -12,6 +12,6 @@ use core\Loader;
 Loader::libraries ( 'Session', 'Template', 'Json' );
 Loader::security ( 'CSRFToken' ); // Require
 Loader::helpers ( 'Array' );
-Loader::traits ( 'DataStructure', 'Util', 'String' );
+Loader::traits ( 'DataStructure', 'String' );
 //Loader::spark ( 'Multimedia' ); //Loose Coupling
 Loader::db ( 'Q' );

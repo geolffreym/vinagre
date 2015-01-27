@@ -8,40 +8,60 @@
 
 namespace core;
 
+use core\interfaces\iURL;
+
 class URI
 {
     private static $URI = NULL;
     private static $DIR = NULL;
 
-    public static function checkURI ( $URI )
+    public function __construct ( $URI )
     {
-        self::$URI = ltrim ( $URI, '/' );
-
-        return self::loadURLDir ( explode ( '/', self::$URI )[ 0 ] );
+        self::$URI = getControllerUri ( $URI );
+        self::$DIR = 'enviroment/' . ENVIRONMENT;
     }
 
-    public static function loadURLDir ( $DIR )
+    public static function checkUri ()
     {
-        self::$DIR = ( !empty( $DIR ) && App::__exist__ ( $DIR, 'controller' ) )
-            ? $DIR : DEFAULT_CONTROLLER;
+        Exception::create ( function () {
+                return App::__exist__ ( 'URL', self::$DIR );
+            }, Exception::getExceptionList ( 'core' )[ 'noURL' ]
+        );
 
-        self::$DIR = 'controller/' . self::$DIR;
+        $URL = App::__load__ ( 'URL', self::$DIR );
 
-        return self::loadFileUrls ( self::$DIR );
+        return self::loadFileUrls ( $URL );
     }
 
-    public static function loadFileUrls ( $DIR )
+    public static function loadFileUrls ( $URL )
     {
-        $_CLASS = App::__load__ ( 'URL', $DIR );
 
-        if ( !$_CLASS ) {
-            Common::error404 ( 'Not ' . self::$URI . ' controller found' );
-        } else {
-            $_CLASS->URI = self::$URI;
+        Exception::create ( function () use ( $URL ) {
+                return $URL instanceof iURL;
+            }, Exception::getExceptionList ( 'core' )[ 'noURL' ]
+        );
 
-            return $_CLASS;
+        self::$URI     = App::__exist__ ( self::$URI, 'controller' ) ? self::$URI : "";
+        $urlCollection = $URL->getUrl ();
+
+        if ( !empty( $urlCollection ) ) {
+            foreach ( $urlCollection as $url ) {
+                if ( @preg_match ( $url->regex, self::$URI, $_output ) ) {
+                    if ( $url->url ) {
+                        return $url->url;
+                    }
+                    self::error ();
+                }
+            }
         }
 
+        self::error ();
+
         return FALSE;
+    }
+
+    private static function error ()
+    {
+        Common::error404 ( 'Page not found' );
     }
 }
