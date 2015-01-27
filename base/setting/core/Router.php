@@ -60,7 +60,7 @@ class Router
                 if ( @preg_match ( $_Regex, rtrim ( $ValidURLS->uri, '/' ), $_output ) ) {
                     Exception::create ( function () use ( $ValidURLS ) {
                             return $ValidURLS->app instanceof iController;
-                        }, 'The instance of the ' . get_class ( $ValidURLS ) . ' must be ' . 'iDBController'
+                        }, 'The instance of the ' . get_class ( $ValidURLS ) . ' must be ' . 'iController'
                     );
 
                     self::$_method                     = $ValidURLS->app->Method;
