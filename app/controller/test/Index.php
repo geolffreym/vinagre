@@ -15,12 +15,5 @@ class Test extends Controller
 {
     public $_default_skull = 'main/Index';
 
-    public function __init(){
-        return 'soy test';
-    }
-
-    public function view(){
-        return 'hi test';
-    }
     //public $_model = 'User';
 }

@@ -64,9 +64,9 @@ abstract class Controller implements iController
         if ( isset( self::$_class[ $_class ] ) )
             return self::$_class[ $_class ];
 
-        if ( class_exists ( $_class ) ) {
-            return ( self::$_class[ $_class ] = new $_class );
-        }
+        // if ( class_exists ( $_class ) ) {
+        return ( self::$_class[ $_class ] = new $_class );
+        //}
     }
 
 
