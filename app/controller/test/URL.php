@@ -10,15 +10,15 @@ namespace core\uri\test;
 use core\App;
 use core\interfaces\iURL;
 
-App::__require__ ( 'Index', 'controller/index' );
+App::__require__ ( 'Index', 'controller/test' );
 
 class URL implements iURL
 {
     public function getUrl ()
     {
         return [
-            url ( '^$', \Index::asView () ),
-            url ( '^(?<action>view)', \Index::asView () ),
+            url ( '^$', \Test::asView () ),
+            url ( '^(?<action>view)', \Test::asView () ),
         ];
     }
 }

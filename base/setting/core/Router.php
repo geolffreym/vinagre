@@ -39,7 +39,7 @@ class Router
 
     private static function appendUri ( &$ValidURLS )
     {
-        $ValidURLS->uri = App::__exist__ ( $ValidURLS->controller, 'controller' ) && !empty( $ValidURLS->uri )
+        $ValidURLS->uri = App::__exist__ ( $ValidURLS->controller, 'controller' )
             ? str_replace ( $ValidURLS->controller, '', strtolower ( $ValidURLS->uri ) )
             : $ValidURLS->uri;
         $ValidURLS->uri = ltrim ( $ValidURLS->uri, '/' );
