@@ -16,7 +16,7 @@ class Index extends Controller
     public $_default_skull = 'main/Index';
 
     public function __init(){
-        return 'hola';
+        return BASE_APP;
     }
 
     public function view(){
