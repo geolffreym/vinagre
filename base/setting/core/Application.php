@@ -67,7 +67,6 @@ class App
         if ( self::__require__ ( $_class, $_dir ) ) {
             // if ( !class_exists ( $_class ) ) {
             $_namespace = isset( $_namespace ) ? $_namespace . '\\' . $_class : $_class;
-
             return $_param ? new $_namespace( $_param ) : new $_namespace;
             // }
 
@@ -158,8 +157,8 @@ class App
      * */
     public static function __redirect__ ( $_url )
     {
-        header ( 'HTTP/1.1 301 Moved Permanently.', TRUE, 404 );
-        header ( 'Location:' . $_url );
+        header ( 'HTTP/1.1 300 Page Not Found.', TRUE, 404 );
+        header ( 'Location:' . $_url, 30 );
     }
 
     public static function __callback__ ( $_callback, $_param )
