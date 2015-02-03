@@ -65,9 +65,11 @@ class DBResult implements iDBResult
             asserts ( $_query, "Query Needed", self::$_query );
             self::execute ( $_query, function ( $result )
                 use ( $_callback ) {
-                    $res = $result->num_rows ();
-                    $result->free ();
-                    App::__callback__ ( $_callback, $res );
+                    if ( $result ) {
+                        $res = $result->num_rows ();
+                        App::__callback__ ( $_callback, $res );
+                        $result->free ();
+                    }
                 }
             );
         }
@@ -86,12 +88,14 @@ class DBResult implements iDBResult
             asserts ( $_query, "Query Needed", self::$_query );
             self::execute ( $_query, function ( $result )
                 use ( $_callback ) {
-                    $_count = [ ];
-                    while ( ( $res = $result->fetch_row () ) ) {
-                        $_count[ ] = $res[ 0 ];
+                    if ( $result ) {
+                        $_count = [ ];
+                        while ( ( $res = $result->fetch_row () ) ) {
+                            $_count[ ] = $res[ 0 ];
+                        }
+                        App::__callback__ ( $_callback, $_count );
+                        $result->free ();
                     }
-                    $result->free ();
-                    App::__callback__ ( $_callback, $_count );
                 }
             );
 
@@ -110,7 +114,7 @@ class DBResult implements iDBResult
         if ( self::$_connection->multi_query ( $_query ) ) {
             $array = [ ];
             do {
-                if ( $result = self::$_connection->store_result () ) {
+                if ( ( $result = self::$_connection->store_result () ) ) {
                     while ( ( $row = $result->fetch_assoc () ) ) {
                         $array[ ] = $row;
                     }
@@ -163,10 +167,13 @@ class DBResult implements iDBResult
 
                     foreach ( $links as $link ) {
                         if ( $result = $link->reap_async_query () ) {
-                            App::__callback__ ( $_callback, $result );
-                            if ( is_object ( $result ) )
+                            if ( $result ) {
                                 $result->free ();
-                        } else die( sprintf ( "MySQLi Error: %s", $link->error ) );
+                                App::__callback__ ( $_callback, $result );
+                            }
+                        } else {
+                            App::__callback__ ( $_callback, FALSE );
+                        };
                         $processed ++;
                     }
                 } while ( $processed < count ( $all_links ) );
@@ -194,8 +201,10 @@ class DBResult implements iDBResult
             asserts ( $_query, "Query Needed", self::$_query );
             self::execute ( $_query, function ( $result )
                 use ( $_callback ) {
-                    App::__callback__ ( $_callback, $result->fetch_assoc () );
-                    $result->free ();
+                    if ( $result ) {
+                        App::__callback__ ( $_callback, $result->fetch_assoc () );
+                        $result->free ();
+                    }
                 }
             );
         }
@@ -219,12 +228,14 @@ class DBResult implements iDBResult
         asserts ( $_query, "Query Needed", self::$_query );
         self::execute ( $_query, function ( $result )
             use ( $_callback ) {
-                $_group = [ ];
-                while ( ( $res = $result->fetch_assoc () ) ) {
-                    $_group[ ] = $res;
+                if ( $result ) {
+                    $_group = [ ];
+                    while ( ( $res = $result->fetch_assoc () ) ) {
+                        $_group[ ] = $res;
+                    }
+                    App::__callback__ ( $_callback, $_group );
+                    $result->free ();
                 }
-                App::__callback__ ( $_callback, $_group );
-                $result->free ();
             }
         );
 
