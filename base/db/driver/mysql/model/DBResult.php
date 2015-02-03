@@ -143,26 +143,30 @@ class DBResult implements iDBResult
             assert ( $_query, "Query Needed", self::$_query );
 
 
-            $_query = self::$_connection->query ( $_query, $_async ? MYSQLI_ASYNC : NULL );
+            $_query = self::$_connection->query ( $_query, $_async ? MYSQLI_ASYNC : MYSQLI_USE_RESULT );
             if ( !$_async ) {
                 App::__callback__ ( $_callback, $_query );
             } else {
                 $all_links = [ self::$_connection ];
                 $processed = 0;
                 do {
-                    $links = $errors = $reject = array ();
+                    $links = $errors = $reject = [ ];
+                    // TODO pending async support. Available only with mysqlnd
+                    // TODO http://php.net/manual/en/book.mysqlnd.php
                     foreach ( $all_links as $link ) {
                         $links[ ] = $errors[ ] = $reject[ ] = $link;
                     }
+
                     if ( !mysqli_poll ( $links, $errors, $reject, 1 ) ) {
                         continue;
                     }
+
                     foreach ( $links as $link ) {
                         if ( $result = $link->reap_async_query () ) {
                             App::__callback__ ( $_callback, $result );
                             if ( is_object ( $result ) )
                                 $result->free ();
-                        } else die( sprintf ( "MySQLi Error: %s", $link->error () ) );
+                        } else die( sprintf ( "MySQLi Error: %s", $link->error ) );
                         $processed ++;
                     }
                 } while ( $processed < count ( $all_links ) );
