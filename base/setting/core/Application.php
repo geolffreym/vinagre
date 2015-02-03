@@ -67,6 +67,7 @@ class App
         if ( self::__require__ ( $_class, $_dir ) ) {
             // if ( !class_exists ( $_class ) ) {
             $_namespace = isset( $_namespace ) ? $_namespace . '\\' . $_class : $_class;
+
             return $_param ? new $_namespace( $_param ) : new $_namespace;
             // }
 
@@ -163,9 +164,11 @@ class App
 
     public static function __callback__ ( $_callback, $_param )
     {
-        if ( $_callback ) {
-            $_callback( $_param );
+        if ( $_callback && isFunction ( $_callback ) ) {
+            return $_callback( $_param );
         }
+
+        return $_param;
     }
 
 }

@@ -10,6 +10,7 @@
 namespace core\db\mysql\model;
 
 use core\App;
+use core\Exception;
 use core\interfaces\db\iDBConnection;
 use core\interfaces\db\iDBResult;
 
@@ -56,50 +57,60 @@ class DBResult implements iDBResult
     /**Retorna cantidad de filas
      * @param $_query
      * @param $_callback
-     * @return void
+     * @return object
      */
-    public static function getNumRows ( $_query, $_callback )
+    public static function getNumRows ( $_query, $_callback = FALSE )
     {
         if ( self::$_is_connected ) {
             self::_queryImpose ( $_query, $_callback );
             asserts ( $_query, "Query Needed", self::$_query );
-            self::execute ( $_query, function ( $result )
+
+            return self::execute ( $_query, function ( $result )
                 use ( $_callback ) {
                     if ( $result ) {
                         $res = $result->num_rows ();
-                        App::__callback__ ( $_callback, $res );
                         $result->free ();
+
+                        return App::__callback__ ( $_callback, $res );
                     }
+
+                    return NULL;
                 }
             );
         }
 
+        return FALSE;
     }
 
     /**Retorna valores desde una consulta count(~)
      * @param $_query
      * @param $_callback
-     * @return void
+     * @return object
      */
-    public static function getCount ( $_query, $_callback )
+    public static function getCount ( $_query, $_callback = FALSE )
     {
         if ( self::$_is_connected ) {
             self::_queryImpose ( $_query, $_callback );
             asserts ( $_query, "Query Needed", self::$_query );
-            self::execute ( $_query, function ( $result )
+
+            return self::execute ( $_query, function ( $result )
                 use ( $_callback ) {
                     if ( $result ) {
                         $_count = [ ];
                         while ( ( $res = $result->fetch_row () ) ) {
                             $_count[ ] = $res[ 0 ];
                         }
-                        App::__callback__ ( $_callback, $_count );
                         $result->free ();
+
+                        return App::__callback__ ( $_callback, $_count );
                     }
+
+                    return NULL;
                 }
             );
-
         }
+
+        return FALSE;
     }
 
 
@@ -137,26 +148,31 @@ class DBResult implements iDBResult
     /**Realiza una consulta asyncrona o syncrona
      * @param $_query
      * @param $_callback
-     * @return void
+     * @return object
      */
     public static function execute ( $_query, $_callback )
     {
         if ( self::$_is_connected ) {
             $_async = ( defined ( 'DB_ASYNC' ) && DB_ASYNC ) || self::$_async;
             self::_queryImpose ( $_query, $_callback );
-            assert ( $_query, "Query Needed", self::$_query );
-
+            asserts ( $_query, "Query Needed", self::$_query );
 
             $_query = self::$_connection->query ( $_query, $_async ? MYSQLI_ASYNC : MYSQLI_USE_RESULT );
             if ( !$_async ) {
-                App::__callback__ ( $_callback, $_query );
+                return App::__callback__ ( $_callback, $_query );
             } else {
+                Exception::create ( function () {
+                        return function_exists ( 'mysqlnd_conn_get_methods' );
+                    }, 'MySqlNd driver needed to async queries'
+                );
+                // TODO pending async support. Available only with mysqlnd
+                // TODO http://php.net/manual/en/book.mysqlnd.php
+
                 $all_links = [ self::$_connection ];
                 $processed = 0;
                 do {
                     $links = $errors = $reject = [ ];
-                    // TODO pending async support. Available only with mysqlnd
-                    // TODO http://php.net/manual/en/book.mysqlnd.php
+
                     foreach ( $all_links as $link ) {
                         $links[ ] = $errors[ ] = $reject[ ] = $link;
                     }
@@ -179,6 +195,8 @@ class DBResult implements iDBResult
                 } while ( $processed < count ( $all_links ) );
             }
         }
+
+        return NULL;
     }
 
     /**Prepara una consulta para evitar inyecciones SQL
@@ -192,23 +210,29 @@ class DBResult implements iDBResult
     /**Retorna un arreglo de datos de un fetch_assoc
      * @param $_query
      * @param $_callback
-     * @return void
+     * @return object
      */
-    public static function row ( $_query, $_callback )
+    public static function row ( $_query, $_callback = FALSE )
     {
         if ( self::$_is_connected ) {
             self::_queryImpose ( $_query, $_callback );
             asserts ( $_query, "Query Needed", self::$_query );
-            self::execute ( $_query, function ( $result )
+
+            return self::execute ( $_query, function ( $result )
                 use ( $_callback ) {
                     if ( $result ) {
-                        App::__callback__ ( $_callback, $result->fetch_assoc () );
+                        $res = $result->fetch_assoc ();
                         $result->free ();
+
+                        return App::__callback__ ( $_callback, $res );
                     }
+
+                    return [ ];
                 }
             );
         }
 
+        return FALSE;
     }
 
     //Retorna informacion de la query
@@ -220,25 +244,31 @@ class DBResult implements iDBResult
     /**Retoran datos multidimensional y asociativos
      * @param $_query
      * @param $_callback
-     * @return void
+     * @return object
      */
-    public static function rowGroup ( $_query, $_callback )
+    public static function rowGroup ( $_query, $_callback = FALSE )
     {
         self::_queryImpose ( $_query, $_callback );
         asserts ( $_query, "Query Needed", self::$_query );
-        self::execute ( $_query, function ( $result )
-            use ( $_callback ) {
-                if ( $result ) {
-                    $_group = [ ];
-                    while ( ( $res = $result->fetch_assoc () ) ) {
-                        $_group[ ] = $res;
-                    }
-                    App::__callback__ ( $_callback, $_group );
-                    $result->free ();
-                }
-            }
-        );
+        if ( self::$_is_connected ) {
+            return self::execute ( $_query, function ( $result )
+                use ( $_callback ) {
+                    if ( $result ) {
+                        $_group = [ ];
+                        while ( ( $res = $result->fetch_assoc () ) ) {
+                            $_group[ ] = $res;
+                        }
+                        $result->free ();
 
+                        return App::__callback__ ( $_callback, $_group );
+                    }
+
+                    return [ ];
+                }
+            );
+        }
+
+        return FALSE;
     }
 
     private static function _queryImpose ( &$_query, &$_callback )
