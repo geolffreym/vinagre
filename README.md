@@ -2,7 +2,7 @@ B_PHP (Dev Version)
 ===================
 PHP MVC | MTV pattern based framework. Make the job easy and fast.
 
-Cnfigure Framework
+Configure Framework
 =======
 
 Requirements
