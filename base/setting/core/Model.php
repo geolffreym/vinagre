@@ -10,8 +10,8 @@ namespace core;
 
 App::__require__ ( 'DataStructure', 'traits' );
 
-use core\traits\DataStructure;
 use core\interfaces\iModel;
+use core\traits\DataStructure;
 
 abstract class Model implements iModel
 {
@@ -39,7 +39,7 @@ abstract class Model implements iModel
         return $this->_name;
     }
 
-   final public function __invoke ( $_attr )
+    final public function __invoke ( $_attr )
     {
         return $this->getAlias () . '.' . $_attr;
     }
@@ -47,6 +47,12 @@ abstract class Model implements iModel
     final public function getModelName ()
     {
         return get_class ( $this );
+    }
+
+    final public function save ()
+    {
+        # TODO crear un adaptador que que permita la creacion de objetos (INSERT) mediante la instancia de un
+        # modelo usando obj->save() para crear
     }
 
     /**Return Class Atributes
@@ -137,7 +143,7 @@ abstract class Model implements iModel
         }
     }
 
-    final public function activeCache ( $_cache = True )
+    final public function activeCache ( $_cache = TRUE )
     {
         if ( $_cache ) {
             $this->cache = App::__load__ ( 'Cache', 'lib' );

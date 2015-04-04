@@ -13,6 +13,7 @@ use core\App;
 use core\interfaces\db\iDBController;
 
 App::__require__ ( 'DBController', 'db/driver/mysql/model' );
+# TODO Crear adaptador que integre DBBuilder y DBResult similar a django ORM (filter, get, etc..)
 
 class MySql extends DBController implements iDBController
 {
