@@ -7,5 +7,5 @@
  */
 namespace core\helper;
 class DBCache {
-//TODO
+//TODO crear adaptador cache
 } 

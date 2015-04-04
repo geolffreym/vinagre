@@ -48,7 +48,7 @@ abstract class Controller implements iController
         } elseif ( $this->Method === 'DELETE' ) {
             $this->_deleteTrigger ( $this->Request );
         }
-
+        #TODO integrar paso de validacion XSS cuando este activo directamente en el request(POST, GET) object
         //TODO PUT and DELETE http://stackoverflow.com/questions/12005790/how-to-receive-a-file-via-http-put-with-php
 
     }
