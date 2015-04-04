@@ -26,7 +26,7 @@ abstract class Model implements iModel
     protected $_name = NULL;
 
 
-    public function __construct ()
+    final public function __construct ()
     {
         $this->switchDb ( DB_DRIVER );
         $this->activeCache ( DB_CACHE );
@@ -39,12 +39,12 @@ abstract class Model implements iModel
         return $this->_name;
     }
 
-    public function __invoke ( $_attr )
+   final public function __invoke ( $_attr )
     {
         return $this->getAlias () . '.' . $_attr;
     }
 
-    public function getModelName ()
+    final public function getModelName ()
     {
         return get_class ( $this );
     }
@@ -52,7 +52,7 @@ abstract class Model implements iModel
     /**Return Class Atributes
      * @return Array
      * */
-    public function getModelAttributes ()
+    final public function getModelAttributes ()
     {
         $_attributes = get_class_vars ( $this->getModelName () );
 
@@ -65,7 +65,7 @@ abstract class Model implements iModel
     /**Get model fields
      * @return Array
      */
-    public function getFields ()
+    final public function getFields ()
     {
         $this->_fields = self::getModelAttributes ();
         $this->_fields = self::filterByMatch ( $this->_fields[ 'keys' ], '([\\_](\w)+[\\_])' );
@@ -78,7 +78,7 @@ abstract class Model implements iModel
      * @param $fields
      * @return Array
      * */
-    public function prepareFields ( $fields )
+    final public function prepareFields ( $fields )
     {
         $_new = [ ];
         foreach ( $fields as $key => $val ) {
@@ -88,7 +88,7 @@ abstract class Model implements iModel
         return $_new;
     }
 
-    public function getAlias ()
+    final public function getAlias ()
     {
         $this->_aliases = $this->_generateAliases ();
         if ( !isset( self::$_alias[ $this->_name ] ) ) {
@@ -99,7 +99,7 @@ abstract class Model implements iModel
     }
 
     //Return Error
-    public function error ()
+    final public function error ()
     {
         return $this->db->Error->getErrorDescription ();
     }
@@ -109,7 +109,7 @@ abstract class Model implements iModel
      * @param $array
      * @return Array
      */
-    public function validateField ( $field, $array = FALSE )
+    final public function validateField ( $field, $array = FALSE )
     {
         $_fields = $this->getFields ();
         $_return = [ ];
@@ -123,7 +123,7 @@ abstract class Model implements iModel
 
     }
 
-    public function switchDb ( $_driver )
+    final public function switchDb ( $_driver )
     {
         switch ( $_driver ) {
             case 'mysql':
@@ -137,7 +137,7 @@ abstract class Model implements iModel
         }
     }
 
-    public function activeCache ( $_cache = FALSE )
+    final public function activeCache ( $_cache = True )
     {
         if ( $_cache ) {
             $this->cache = App::__load__ ( 'Cache', 'lib' );

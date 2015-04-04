@@ -5,11 +5,7 @@
  * Date: 07-20-13
  * Time: 12:34 PM
  */
-
-//echo init();
-/**General FAQ
- * Texto compreso -> Ciudades Creadas
- */
+/**General FAQ*/
 //Enviroment
 define( 'ENVIRONMENT', 'development' );
 

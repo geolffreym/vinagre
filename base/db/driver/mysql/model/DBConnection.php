@@ -15,7 +15,7 @@ use core\interfaces\db\iDBConnection;
 App::__interface__ ( 'iDBConnection', 'db/interface' );
 
 
-class DBConnection implements iDBConnection
+final class DBConnection implements iDBConnection
 {
     static $_object = NULL;
     private static $_connection = NULL;

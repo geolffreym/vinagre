@@ -23,7 +23,7 @@ abstract class Controller implements iController
     protected $_loader = NULL;
     protected $_default_skull = NULL;
 
-    public function __construct ()
+    final public function __construct ()
     {
 
         $this->Method  = $_SERVER[ 'REQUEST_METHOD' ];
@@ -109,7 +109,7 @@ abstract class Controller implements iController
     }
 
 
-    protected function _setSkull ( $_skull )
+    protected function setSkull ( $_skull )
     {
         $this->_default_skull = $_skull;
     }

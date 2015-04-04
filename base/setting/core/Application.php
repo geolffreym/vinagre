@@ -8,7 +8,7 @@
  */
 namespace core;
 
-class App
+final class App
 {
     public static $_class = [ ];
     static $_loaded_class = [ ];
@@ -158,7 +158,7 @@ class App
      * */
     public static function __redirect__ ( $_url )
     {
-        header ( 'HTTP/1.1 300 Page Not Found.', TRUE, 404 );
+        header ( 'HTTP/1.1 307 Temporary Redirect.', TRUE, 404 );
         header ( 'Location:' . $_url, 30 );
     }
 

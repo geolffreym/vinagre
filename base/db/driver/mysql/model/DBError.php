@@ -14,7 +14,7 @@ use core\interfaces\db\iDBError;
 
 App::__interface__ ( 'iDBError', 'db/interface' );
 
-class DBError implements iDBError
+final class DBError implements iDBError
 {
 
     private static $_DBConnection;

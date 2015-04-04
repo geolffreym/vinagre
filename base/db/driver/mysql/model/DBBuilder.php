@@ -15,7 +15,7 @@ use core\interfaces\db\iDBResult;
 use core\interfaces\iModel;
 
 
-class DBBuilder // implements iDBBuilder
+final class DBBuilder // implements iDBBuilder
 {
     use DataStructure;
 

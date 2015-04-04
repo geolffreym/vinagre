@@ -10,7 +10,7 @@ namespace core;
 
 use core\interfaces\iController;
 
-class Loader
+final class Loader
 {
     private static $_libraries = [ ];
     private static $_helpers = [ ];

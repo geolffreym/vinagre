@@ -10,7 +10,7 @@ namespace core;
 
 use core\interfaces\iURL;
 
-class URI
+final class URI
 {
     private static $URI = NULL;
     private static $DIR = NULL;

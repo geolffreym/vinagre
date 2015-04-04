@@ -18,7 +18,7 @@ use core\lib\Template;
 </head>
 <body>
 <header id="header">
-    Hi
+    Hi test
     <?php Template::writeRegion ( 'header' ); ?>
 </header>
 <?php Template::writeRegion ( 'scripts' ); ?>

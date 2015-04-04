@@ -7,7 +7,7 @@
  */
 namespace core;
 
-class Exception
+final class Exception
 {
     private static $_exception_list = [ ];
 

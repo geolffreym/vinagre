@@ -14,7 +14,7 @@ use core\interfaces\db\iDBConf;
 
 App::__interface__ ( 'iDBConf', 'db/interface' );
 
-class DBConf implements iDBConf
+final class DBConf implements iDBConf
 {
 
     private static $host = NULL;

@@ -64,37 +64,37 @@ class DBController implements iDBController
 
     }
 
-    public function getDbConf ()
+    final public function getDbConf ()
     {
         return $this->DBConf;
     }
 
-    public function getDbConnection ()
+    final public function getDbConnection ()
     {
         return $this->DBConnection;
     }
 
-    public function getDbResult ()
+    final public function getDbResult ()
     {
         return $this->DBResult;
     }
 
-    public function getDbError ()
+    final public function getDbError ()
     {
         return $this->DBError;
     }
 
-    public function getDbTransaction ()
+    final public function getDbTransaction ()
     {
         return $this->DBTransaction;
     }
 
-    public function getDbServer ()
+    final public function getDbServer ()
     {
         return $this->DBServer;
     }
 
-    public function getDbBuilder ()
+    final public function getDbBuilder ()
     {
         return $this->DBBuilder;
     }

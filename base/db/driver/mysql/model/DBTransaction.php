@@ -15,7 +15,7 @@ use core\interfaces\db\iDBTransaction;
 
 App::__interface__ ( 'iDBTransaction', 'db/interface' );
 
-class DBTransaction implements iDBTransaction
+final class DBTransaction implements iDBTransaction
 {
 
     private static $_DBConnection;

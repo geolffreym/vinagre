@@ -16,7 +16,7 @@ use core\interfaces\db\iDBResult;
 
 App::__interface__ ( 'iDBResult', 'db/interface' );
 
-class DBResult implements iDBResult
+final class DBResult implements iDBResult
 {
 
     private static $_object;

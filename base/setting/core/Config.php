@@ -8,10 +8,15 @@
 
 namespace core;
 
-class Config
+final class Config
 {
     static $_config = [ ];
 
+    /*** Compare with defined constant to validate if is declared or not
+     * @param $_name
+     * @param $_conf
+     * @return bool
+     */
     public static function findConfig ( $_name, $_conf )
     {
         if ( !isset( self::$_config[ $_name ] ) ) {

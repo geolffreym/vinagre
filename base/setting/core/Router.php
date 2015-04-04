@@ -12,7 +12,7 @@ use core\interfaces\iController;
 use core\interfaces\iURL;
 use core\traits\DataStructure;
 
-class Router
+final class Router
 {
     private static $_method = 'GET';
     private static $_matched = [ ];

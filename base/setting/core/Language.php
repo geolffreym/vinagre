@@ -8,7 +8,7 @@
 
 namespace core;
 
-class Language
+final class Language
 {
     public static $_lang = DEFAULT_LANGUAGE;
     public static $_lang_array = [ ];

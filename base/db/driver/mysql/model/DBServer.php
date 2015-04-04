@@ -14,7 +14,7 @@ use core\interfaces\db\iDBServer;
 
 App::__interface__ ( 'iDBServer', 'db/interface' );
 
-class DBServer implements iDBServer
+final class DBServer implements iDBServer
 {
     private static $DBConnection = NULL;
 

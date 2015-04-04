@@ -18,7 +18,8 @@ define( 'ACTIVE_GZIP', TRUE );
 
 
 //DEFAULT ERROR PAGES
-define( 'DEFAULT_404_VIEW', '' );
+define( 'DEFAULT_404_PAGE', 'error404.tpl' );
+define( 'DEFAULT_500_PAGE', 'error404.tpl' );
 
 //DB (Db Install needed)
 define( 'DB_HOST', 'localhost' );
