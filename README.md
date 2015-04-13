@@ -1,6 +1,8 @@
-Vinagre - Give flavor to your salad (Dev Version)
+Vinagre - Give flavor to your salad
 ===================
 PHP MVC | MTV pattern based framework. Make the job easy and fast.
+(Dev Version)
+
 
 Configure Framework
 =======
