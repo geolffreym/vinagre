@@ -1,4 +1,4 @@
-B_PHP (Dev Version)
+Vinagre - Give flavor to your salad (Dev Version)
 ===================
 PHP MVC | MTV pattern based framework. Make the job easy and fast.
 
