@@ -21,7 +21,6 @@ class IndexUser extends Controller
 
     public function __init ()
     {
-        var_dump ( CSRFToken () );
         Template::__init ( $this );
         Template::addRegion ( 'title' );
         Template::write ( 'title', 'Index' );
@@ -31,7 +30,7 @@ class IndexUser extends Controller
 
     public function post ()
     {
-       // return $this->Json->write ( [ 0 ] );
+       return $this->Json->write ( [ 0 ] );
     }
 
 }

@@ -22,7 +22,7 @@ final class Session
             session_start ();
         }
 
-        session_cache_limiter ( SESS_CACHE );
+        //session_cache_limiter ( SESS_CACHE );
         self::$_session_name              = session_name ( $_session_name ? $_session_name : SESS_NAME );
         $_SESSION[ self::$_session_name ] = [ ];
     }
