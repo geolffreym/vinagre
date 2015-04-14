@@ -7,6 +7,7 @@
  * Time: 10:04
  * To change this template use Upload | Settings | Upload Templates.
  */
+namespace core\sparks;
 abstract class Multimedia
 {
 
@@ -20,7 +21,7 @@ abstract class Multimedia
 
     public function getFileProperties ()
     {
-        if ( ! empty( $this->_file ) ) {
+        if ( !empty( $this->_file ) ) {
             return array ( 'name'     => $this->_file->getName (),
                            'temp_dir' => $this->_file->getDirectory (),
                            'type'     => $this->_file->getType (),
@@ -62,9 +63,9 @@ abstract class Multimedia
      */
     public function fileFormat ( $_needle )
     {
-        if ( isset( $_needle ) and is_array ( $_needle ) and ! empty( $this->_file ) ) {
+        if ( isset( $_needle ) and is_array ( $_needle ) and !empty( $this->_file ) ) {
             $_get = end ( explode ( ".", strtolower ( $this->_file->getName () ) ) );
-            if ( ! in_array ( $_get, $_needle ) ) {
+            if ( !in_array ( $_get, $_needle ) ) {
                 return FALSE;
             } else {
                 return $_get;
@@ -79,7 +80,7 @@ abstract class Multimedia
      */
     public function copyFile ( $new_directory = NULL )
     {
-        if ( ! isset( $new_directory ) and ! isset( $this->_directory ) ) {
+        if ( !isset( $new_directory ) and !isset( $this->_directory ) ) {
             throw new \Exception( 'New directory needed' );
         }
 
@@ -93,7 +94,7 @@ abstract class Multimedia
     /**Establece directorio actual*/
     public function setDirectory ( $_directory = NULL )
     {
-        if ( ! isset( $_directory ) ) {
+        if ( !isset( $_directory ) ) {
             throw new \Exception( "Directory needed" );
         }
         $this->_directory = $_directory;
@@ -102,7 +103,7 @@ abstract class Multimedia
     /**Mueve un archivo*/
     public function moveFile ( $_directory = NULL )
     {
-        if ( ! isset( $_directory ) and ! isset( $this->_directory ) ) {
+        if ( !isset( $_directory ) and !isset( $this->_directory ) ) {
             throw new \Exception( 'New directory needed' );
         }
         if ( move_uploaded_file ( $this->_directory, $_directory ) ) {

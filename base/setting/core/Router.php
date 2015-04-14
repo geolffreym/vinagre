@@ -23,7 +23,7 @@ final class Router extends Http
     {
         if ( isset( self::$_response[ 'template' ] ) ) {
             return self::$_response[ 'template' ];
-        } elseif ( is_string ( self::$_response ) ) {
+        } elseif ( !empty ( self::$_response ) ) {
             return self::$_response;
         }
 
@@ -40,9 +40,6 @@ final class Router extends Http
 
     private function handleMethod ( &$ValidURLS, $_buffer )
     {
-        //breakPoint ( $_output );
-        breakPoint ( $ValidURLS );
-
         //Parse Request
         $ValidURLS->app->Request = $_request = ( DataStructure::cleanNumericKeys ( $_buffer ) );
 
@@ -84,7 +81,7 @@ final class Router extends Http
 
             if ( isset( $ValidURLS->app ) ) {
                 if ( @preg_match ( $_Regex, rtrim ( $_Uri, '/' ), $_buffer ) ) {
-                    //breakPoint($ValidURLS);
+
                     Exception::create ( function () use ( $ValidURLS ) {
                             return $ValidURLS->app instanceof iController;
                         }, 'The instance of the ' . get_class ( $ValidURLS ) . ' must be ' . 'iController'

@@ -11,7 +11,7 @@ namespace core;
 use core\interfaces\iController;
 use core\security\CSRFToken;
 
-abstract class Controller implements iController
+class Controller implements iController
 {
 
     public $Name = NULL;
@@ -19,11 +19,11 @@ abstract class Controller implements iController
     protected $Session = NULL;
 
     private $_language = NULL;
+    private $_loader = NULL;
     private static $_class = [ ];
 
     protected $_controller = NULL;
     protected $_model = NULL;
-    protected $_loader = NULL;
     protected $_default_skull = NULL;
 
     final public function __construct ()
@@ -52,6 +52,11 @@ abstract class Controller implements iController
             if ( App::__exist__ ( $this->_model, 'model' ) )
                 $this->_model = App::__instance__ ( $this->_model, 'model' );
         }
+    }
+
+    public function __toString ()
+    {
+        return $this->Name;
     }
 
     public function __init ( $_context = NULL )

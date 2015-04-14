@@ -14,7 +14,7 @@ function CSRFToken ()
         CSRFToken::create ();
         CSRFToken::save ();
 
-        return '<input type="hidden" value="' . CSRFToken::load () . '" name="csrf_token">';
+        return CSRFToken::load ();
     }
 
     return '';

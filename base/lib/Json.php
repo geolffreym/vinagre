@@ -28,16 +28,18 @@ class Json
 
     public static function writeSecure ( $_array, $_type = NULL )
     {
-        if ( ! isset( $_type ) )
+        if ( !isset( $_type ) )
             $_type = self::$_option;
-        echo 'while(1);' . json_encode ( $_array, $_type );
+
+        return 'while(1);' . json_encode ( $_array, $_type );
     }
 
     public static function write ( $_array, $_type = NULL )
     {
-        if ( ! isset( $_type ) )
+        if ( !isset( $_type ) )
             $_type = self::$_option;
-        echo json_encode ( $_array, $_type );
+
+        return json_encode ( $_array, $_type );
     }
 
     public static function read ( $_array, $_assoc = TRUE )

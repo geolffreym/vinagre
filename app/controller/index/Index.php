@@ -21,24 +21,17 @@ class IndexUser extends Controller
 
     public function __init ()
     {
+        var_dump ( CSRFToken () );
         Template::__init ( $this );
         Template::addRegion ( 'title' );
         Template::write ( 'title', 'Index' );
-        breakPoint ( $this );
 
         return Template::render ();
     }
 
-    public function get ()
-    {
-        // breakPoint(CSRFToken ());
-        redirect ( '/test' );
-    }
-
     public function post ()
     {
-        breakPoint ( $this );
-
-        return $this->Json->writeSecure ( [ 'a' => 1 ] );
+       // return $this->Json->write ( [ 0 ] );
     }
+
 }

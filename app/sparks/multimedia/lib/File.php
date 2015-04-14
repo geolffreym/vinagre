@@ -7,7 +7,10 @@
  * To change this template use File | Settings | File Templates.
  */
 
-use multimedia\interfaces\iFile;
+namespace core\sparks\lib;
+
+use core\sparks\interfaces\iFile;
+use core\sparks\Multimedia;
 
 class File extends Multimedia implements iFile
 {
@@ -20,7 +23,7 @@ class File extends Multimedia implements iFile
     public function setFile ( $_file, $_file_name )
     {
 
-        if ( ! is_array ( $_file ) ) {
+        if ( !is_array ( $_file ) ) {
             throw new \Exception(
                 "File type needed"
             );
@@ -37,7 +40,7 @@ class File extends Multimedia implements iFile
             $this->_error = $_file[ 'error' ];
         }
 
-        $this->_file       = $this;
+        $this->_file = $this;
     }
 
     public function getName ()

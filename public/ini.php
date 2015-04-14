@@ -13,7 +13,7 @@ define( 'ENVIRONMENT', 'development' );
 //Error Reporting
 switch ( ENVIRONMENT ) {
     case 'development':
-        error_reporting ( E_ALL );
+        error_reporting ( E_ERROR );
         break;
     case 'production':
         error_reporting ( 0 );

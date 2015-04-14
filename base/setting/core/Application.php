@@ -76,12 +76,15 @@ final class App
         return FALSE;
     }
 
-    public static function __require__ ( $_file, $_dir )
+    public static function __require__ ( $_file, $_dir, $_overwrite = FALSE )
     {
-
         if ( ( $_exist = self::__exist__ ( $_file, $_dir ) ) ) {
             self::__loaded__ ( $_file, $_exist );
-            @require_once ( $_exist );
+            if ( $_overwrite ) {
+                @require ( $_exist );
+            } else {
+                @require_once ( $_exist );
+            }
 
             return $_exist;
         }
@@ -158,7 +161,7 @@ final class App
      * */
     public static function __redirect__ ( $_url )
     {
-        header ( 'HTTP/1.1 307 Temporary Redirect.', TRUE, 307 );
+        header ( 'HTTP/1.1 307 Temporary Redirect.', TRUE, 404 );
         header ( 'Location:' . $_url, 30 );
     }
 

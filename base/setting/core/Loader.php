@@ -20,6 +20,7 @@ final class Loader
     private static $_sparks = [ ];
     private static $_security = [ ];
     private static $_instance = NULL;
+
     private static $_security_dir = 'security';
     private static $_libraries_dir = 'lib';
     private static $_interfaces_dir = 'interface';
@@ -35,8 +36,10 @@ final class Loader
 
     public function __init ( iController &$controller )
     {
-        $this->autoloader ( $controller );
+        self::$_libraries_dir  = 'lib';
+        self::$_interfaces_dir = 'interface';
 
+        $this->autoloader ( $controller );
         if ( !isset( self::$_instance ) ) {
             self::$_instance = new self();
         }
@@ -73,13 +76,13 @@ final class Loader
 
     private function _dinamicSparks ( $_load, $_dir )
     {
-        if ( count ( self::$_sparks ) > 0 ) {
+        if ( count ( $_load ) > 0 ) {
             foreach ( $_load as $lib ) {
                 $_dir = $_dir . '/' . strtolower ( $lib );
                 if ( App::__require__ ( $lib, $_dir ) ) {
                     self::$_libraries_dir  = $_dir . '/lib';
                     self::$_interfaces_dir = $_dir . '/interface';
-                    App::__require__ ( 'autoload', $_dir . '/config' );
+                    App::__require__ ( 'autoload', $_dir . '/config', TRUE );
 
                     return TRUE;
                 }
@@ -105,7 +108,7 @@ final class Loader
 
     public function autoloader ( iController &$controller )
     {
-        if ( !App::__require__ ( 'autoload', 'enviroment/' . ENVIRONMENT ) ) {
+        if ( !App::__require__ ( 'autoload', 'enviroment/' . ENVIRONMENT, TRUE ) ) {
             Common::error503 ( 'Not auto loader file found' );
         }
 
@@ -116,11 +119,9 @@ final class Loader
         $this->_dinamicRequire ( self::$_traits, self::$_traits_dir );
         $this->_dinamicRequire ( self::$_security, self::$_security_dir );
 
-        self::$_libraries  = [ ];
-        self::$_interfaces = [ ];
         if ( $this->_dinamicSparks ( self::$_sparks, self::$_sparks_dir ) ) {
             $this->_dinamicInterfaces ( self::$_interfaces, self::$_interfaces_dir );
-            $this->_dinamicProperty ( self::$_libraries, self::$_libraries_dir, $controller, 'core\\lib' );
+            $this->_dinamicProperty ( self::$_libraries, self::$_libraries_dir, $controller, 'core\\sparks\\lib' );
         }
 
 
@@ -128,37 +129,37 @@ final class Loader
 
     public static function libraries ()
     {
-        self::$_libraries += func_get_args ();
+        self::$_libraries = func_get_args ();
     }
 
     public static function helpers ()
     {
-        self::$_helpers += func_get_args ();
+        self::$_helpers = func_get_args ();
     }
 
     public static function traits ()
     {
-        self::$_traits += func_get_args ();
+        self::$_traits = func_get_args ();
     }
 
     public static function interfaces ()
     {
-        self::$_interfaces += func_get_args ();
+        self::$_interfaces = func_get_args ();
     }
 
     public static function security ()
     {
-        self::$_security += func_get_args ();
+        self::$_security = func_get_args ();
     }
 
 
     public static function db ()
     {
-        self::$_database += func_get_args ();
+        self::$_database = func_get_args ();
     }
 
     public static function spark ()
     {
-        self::$_sparks += func_get_args ();
+        self::$_sparks = func_get_args ();
     }
 } 

@@ -79,7 +79,7 @@ final class CSRFToken
         self::$_is_active_session = TRUE;
         self::$_session->setData ( 'token', $_token );
         self::$_session->setCookie ( CSRF_TOKEN_COOKIE_NAME || self::$_session_name, CSRF_TOKEN_EXPIRE );
-
+        //breakPoint($_SESSION);
     }
 
     //Destruye la session actual

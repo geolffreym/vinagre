@@ -6,7 +6,7 @@
  * Time: 9:39
  * To change this template use File | Settings | File Templates.
  */
-namespace multimedia\interfaces;
+namespace core\sparks\interfaces;
 
 interface iFile
 {
