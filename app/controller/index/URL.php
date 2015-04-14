@@ -17,8 +17,9 @@ class URL implements iURL
     public function getUrl ()
     {
         return [
+            # Action ex: (?<action>[\w]),  in regexp can be used to target a custom method in class
             url ( '^$', \Index::asView () ),
-            url ( '^(?<action>view)$', \IndexUser::asView () ), # Action in regexp cn be user to target a custom method in class
+            url ( '^view$', \IndexUser::asView () ),
             url ( '^view/user$', \IndexUser::asView () )
 
         ];

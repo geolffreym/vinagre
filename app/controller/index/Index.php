@@ -24,18 +24,21 @@ class IndexUser extends Controller
         Template::__init ( $this );
         Template::addRegion ( 'title' );
         Template::write ( 'title', 'Index' );
+        breakPoint ( $this );
 
         return Template::render ();
     }
 
     public function get ()
     {
-
-        breakPoint(csrfToken());
-        return 'hi';
+        // breakPoint(CSRFToken ());
+        redirect ( '/test' );
     }
 
-    public function post(){
-        breakPoint($this->Request);
+    public function post ()
+    {
+        breakPoint ( $this );
+
+        return $this->Json->writeSecure ( [ 'a' => 1 ] );
     }
 }

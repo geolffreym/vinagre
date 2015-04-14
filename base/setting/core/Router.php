@@ -38,9 +38,10 @@ final class Router extends Http
         $ValidURLS->uri = ltrim ( $ValidURLS->uri, '/' );
     }
 
-    private function handleMethod ( $ValidURLS, $_buffer )
+    private function handleMethod ( &$ValidURLS, $_buffer )
     {
         //breakPoint ( $_output );
+        breakPoint ( $ValidURLS );
 
         //Parse Request
         $ValidURLS->app->Request = $_request = ( DataStructure::cleanNumericKeys ( $_buffer ) );
@@ -56,7 +57,7 @@ final class Router extends Http
         $ValidURLS->app->Request->httpMethod = $this->getHttpMethod ();
         $ValidURLS->app->Request->isAjax     = $this->isAjax ();
         $ValidURLS->app->Request->remoteIp   = $this->getRemoteIp ();
-        $ValidURLS->app->Request->userAgent   = $this->getUserAgent();
+        $ValidURLS->app->Request->userAgent  = $this->getUserAgent ();
 
         $_action = isset( $_request->action )
             ? $_request->action
@@ -79,9 +80,11 @@ final class Router extends Http
             self::appendUri ( $ValidURLS );
 
             $_Regex = $ValidURLS->regex;
-            //breakPoint ( $ValidURLS );
+            $_Uri   = $ValidURLS->uri;
+
             if ( isset( $ValidURLS->app ) ) {
-                if ( @preg_match ( $_Regex, rtrim ( $ValidURLS->uri, '/' ), $_buffer ) ) {
+                if ( @preg_match ( $_Regex, rtrim ( $_Uri, '/' ), $_buffer ) ) {
+                    //breakPoint($ValidURLS);
                     Exception::create ( function () use ( $ValidURLS ) {
                             return $ValidURLS->app instanceof iController;
                         }, 'The instance of the ' . get_class ( $ValidURLS ) . ' must be ' . 'iController'

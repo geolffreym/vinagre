@@ -158,7 +158,7 @@ final class App
      * */
     public static function __redirect__ ( $_url )
     {
-        header ( 'HTTP/1.1 307 Temporary Redirect.', TRUE, 404 );
+        header ( 'HTTP/1.1 307 Temporary Redirect.', TRUE, 307 );
         header ( 'Location:' . $_url, 30 );
     }
 

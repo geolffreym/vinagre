@@ -26,7 +26,7 @@ final class CSRFToken
         self::$_session->setSessionName ( $_sess_name );
 
         if ( !self::$_session->exist ( $_sess_name ) ) {
-            self::$_session->__init ();
+            self::$_session->__init ($_sess_name);
         }
 
         self::$_is_active_session = self::$_session->isActive ();

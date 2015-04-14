@@ -51,7 +51,3 @@ function append ( $_dir )
 
     return FALSE;
 }
-
-function redirect($url){
-    App::__redirect__($url);
-}

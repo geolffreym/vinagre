@@ -42,6 +42,9 @@ App::__require__ ( 'Debug', 'functions' );
 //Functions Route
 App::__require__ ( 'Router', 'functions' );
 
+//Function Shortcuts
+App::__require__ ( 'Shortcuts', 'functions' );
+
 //Functions Template
 App::__require__ ( 'Template', 'functions' );
 
