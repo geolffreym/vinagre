@@ -38,7 +38,7 @@ final class Config
         $_constant = get_defined_constants ( TRUE )[ 'user' ];
         $_return   = [ ];
         foreach ( $_find as $value ) {
-            if ( isset ( $_constant[ $value ] ) ) {
+            if ( !empty ( $_constant[ $value ] ) ) {
                 $_return[ $value ] = $_constant[ $value ];
             }
         }

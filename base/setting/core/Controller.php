@@ -9,15 +9,18 @@
 namespace core;
 
 use core\interfaces\iController;
+use core\security\CSRFToken;
 
 abstract class Controller implements iController
 {
 
-    public $Request = NULL;
-    public $Method = NULL;
     public $Name = NULL;
+    public $Request = NULL;
+    protected $Session = NULL;
 
+    private $_language = NULL;
     private static $_class = [ ];
+
     protected $_controller = NULL;
     protected $_model = NULL;
     protected $_loader = NULL;
@@ -26,36 +29,54 @@ abstract class Controller implements iController
     final public function __construct ()
     {
 
-        $this->Method  = $_SERVER[ 'REQUEST_METHOD' ];
-        $this->Name    = get_called_class ();
+        $this->Name = get_called_class ();
+
+        // Init Loader /core
         $this->_loader = new Loader;
         $this->_loader->__init ( $this );
 
-        if ( isset( $this->Session ) )
-            $this->Session->__init ();
+        //Init Language /core
+        $this->_language = new Language;
+        $this->_language->__init ();
 
+        //Init Session /lib
+        $this->Session = new Session();
+
+        //Init CSRF Token if active
+        if ( CSRFToken::isServiceActive () ) {
+            CSRFToken::__init ();
+        }
+
+        //Init Model
         if ( isset( $this->_model ) ) {
             if ( App::__exist__ ( $this->_model, 'model' ) )
                 $this->_model = App::__instance__ ( $this->_model, 'model' );
         }
-
-        if ( $this->Method === 'GET' ) {
-            $this->_getTrigger ( $this->Request );
-        } elseif ( $this->Method === 'POST' ) {
-            $this->_postTrigger ( $_POST );
-        } elseif ( $this->Method === 'PUT' ) {
-            $this->_putTrigger ( $this->Request );
-        } elseif ( $this->Method === 'DELETE' ) {
-            $this->_deleteTrigger ( $this->Request );
-        }
-        #TODO integrar paso de validacion XSS cuando este activo directamente en el request(POST, GET) object
-        //TODO PUT and DELETE http://stackoverflow.com/questions/12005790/how-to-receive-a-file-via-http-put-with-php
-
     }
 
     public function __init ( $_context = NULL )
     {
         return $this->renderToResponse ( $_context );
+    }
+
+
+    public function filterPost ( &$_post )
+    {
+
+        if ( CSRFToken::isServiceActive () ) {
+            if ( !isset( $_post[ 'csrf_token' ] ) )
+                Common::error503 ( 'Undefined CSRF Token' );
+
+            if ( !CSRFToken::validate ( $_post[ 'csrf_token' ] ) )
+                Common::error503 ( 'Invalid Token' );
+
+        }
+
+        if ( Config::findConfig ( 'XSS_GLOBAL', [ 'XSS_GLOBAL_PROTECTION' ] ) ) {
+            $_xss = App::__load__ ( 'XSS', 'security', 'core\\security' );
+            $_xss->cleanRequest ( $_post );
+        }
+
     }
 
     public static function asView ()
@@ -68,36 +89,6 @@ abstract class Controller implements iController
         return ( self::$_class[ $_class ] = new $_class );
         //}
     }
-
-
-    private function _getTrigger ( &$GET )
-    {
-        if ( method_exists ( $this, 'get' ) ) {
-            $this->get ( $GET );
-        }
-    }
-
-    private function _postTrigger ( &$POST )
-    {
-        if ( method_exists ( $this, 'post' ) ) {
-            $this->post ( $POST );
-        }
-    }
-
-    private function _putTrigger ( &$PUT )
-    {
-        if ( method_exists ( $this, 'put' ) ) {
-            $this->put ( $PUT );
-        }
-    }
-
-    private function _deleteTrigger ( &$DELETE )
-    {
-        if ( method_exists ( $this, 'delete' ) ) {
-            $this->delete ( $DELETE );
-        }
-    }
-
 
     protected function contextData ()
     {
@@ -129,4 +120,4 @@ abstract class Controller implements iController
 
         return FALSE;
     }
-} 
+}

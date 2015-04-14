@@ -12,21 +12,14 @@ use core\interfaces\iController;
 use core\interfaces\iURL;
 use core\traits\DataStructure;
 
-final class Router
+final class Router extends Http
 {
     private static $_method = 'GET';
     private static $_matched = [ ];
     private static $_response = NULL;
 
-    private static function _queryParse ( &$_output )
-    {
-        if ( isset( $_output[ 'query' ] ) ) {
-            parse_str ( str_replace ( '?', '', $_output[ 'query' ] ), $arr );
-            $_output[ 'query' ] = (object) $arr;
-        }
-    }
 
-    private static function _isValidTemplate ()
+    private function _isValidTemplate ()
     {
         if ( isset( self::$_response[ 'template' ] ) ) {
             return self::$_response[ 'template' ];
@@ -37,7 +30,7 @@ final class Router
         return NULL;
     }
 
-    private static function appendUri ( &$ValidURLS )
+    private function appendUri ( &$ValidURLS )
     {
         $ValidURLS->uri = App::__exist__ ( $ValidURLS->controller, 'controller' )
             ? str_replace ( $ValidURLS->controller, '', strtolower ( $ValidURLS->uri ) )
@@ -45,38 +38,57 @@ final class Router
         $ValidURLS->uri = ltrim ( $ValidURLS->uri, '/' );
     }
 
-    public static function getMatched ()
+    private function handleMethod ( $ValidURLS, $_buffer )
+    {
+        //breakPoint ( $_output );
+
+        //Parse Request
+        $ValidURLS->app->Request = $_request = ( DataStructure::cleanNumericKeys ( $_buffer ) );
+
+        //Handle Post
+        if ( $this->isPost () ) {
+            $ValidURLS->app->filterPost ( $_POST );
+            $ValidURLS->app->Request = array_merge ( $_POST, $_request );
+        }
+
+        //Assign Request to Controller
+        $ValidURLS->app->Request             = object ( $ValidURLS->app->Request );
+        $ValidURLS->app->Request->httpMethod = $this->getHttpMethod ();
+        $ValidURLS->app->Request->isAjax     = $this->isAjax ();
+        $ValidURLS->app->Request->remoteIp   = $this->getRemoteIp ();
+        $ValidURLS->app->Request->userAgent   = $this->getUserAgent();
+
+        $_action = isset( $_request->action )
+            ? $_request->action
+            : strtolower ( $this->getHttpMethod () );
+
+        //Process response
+        self::$_response = method_exists ( $ValidURLS->app, $_action )
+            ? $ValidURLS->app->{$_action}()
+            : $ValidURLS->app->__init ();
+    }
+
+    public function getMatched ()
     {
         return self::$_matched;
     }
 
-    public static function matchRoute ( iURL $URL )
+    public function matchRoute ( iURL $URL )
     {
         foreach ( $URL->getUrl () as $ValidURLS ) {
-            $_Regex = $ValidURLS->regex;
             self::appendUri ( $ValidURLS );
+
+            $_Regex = $ValidURLS->regex;
             //breakPoint ( $ValidURLS );
             if ( isset( $ValidURLS->app ) ) {
-                if ( @preg_match ( $_Regex, rtrim ( $ValidURLS->uri, '/' ), $_output ) ) {
+                if ( @preg_match ( $_Regex, rtrim ( $ValidURLS->uri, '/' ), $_buffer ) ) {
                     Exception::create ( function () use ( $ValidURLS ) {
                             return $ValidURLS->app instanceof iController;
                         }, 'The instance of the ' . get_class ( $ValidURLS ) . ' must be ' . 'iController'
                     );
 
-                    self::$_method                     = $ValidURLS->app->Method;
                     self::$_matched[ $ValidURLS->uri ] = $_Regex;
-
-                    if ( self::$_method !== 'POST' ) {
-                        self::_queryParse ( $_output );
-                        $ValidURLS->appRequest = $_request = (object) DataStructure::cleanNumericKeys ( $_output );
-                        $_action               = isset( $_request->action )
-                            ? $_request->action
-                            : FALSE;
-
-                        self::$_response = method_exists ( $ValidURLS->app, $_action )
-                            ? $ValidURLS->app->{$_action}() : $ValidURLS->app->__init ();
-                    }
-
+                    $this->handleMethod ( $ValidURLS, $_buffer );
                     break;
                 }
             }
@@ -85,9 +97,9 @@ final class Router
     }
 
 
-    public static function writeResponse ()
+    public function writeResponse ()
     {
-        $_is_template = self::_isValidTemplate ();
+        $_is_template = $this->_isValidTemplate ();
         if ( isset( $_is_template ) ) {
             echo $_is_template;
         } elseif ( is_null ( $_is_template ) && self::$_method === 'GET' ) {

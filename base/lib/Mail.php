@@ -20,10 +20,10 @@ class Mail extends PHPMailer
         $this->exceptions = FALSE;
         $this->IsSMTP ();
         $this->SMTPAuth = TRUE;
-        $this->Host     = SES_HOST;
-        $this->Port     = SES_PORT;
-        $this->Username = SES_USER;
-        $this->Password = SES_PASSWORD;
+        $this->Host     = MAIL_HOST;
+        $this->Port     = MAIL_PORT;
+        $this->Username = MAIL_USER;
+        $this->Password = MAIL_PASSWORD;
         $this->CharSet  = 'UTF-8';
     }
 

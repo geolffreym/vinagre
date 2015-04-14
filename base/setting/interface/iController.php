@@ -14,4 +14,5 @@ interface iController
     public function __init ();
 
     public static function asView ();
+
 }

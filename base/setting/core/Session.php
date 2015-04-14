@@ -6,8 +6,8 @@
  * Date: 07-12-14
  * Time: 10:25 AM
  */
-namespace core\lib;
-class Session
+namespace core;
+final class Session
 {
     private static $_session_name = NULL;
 
@@ -44,6 +44,20 @@ class Session
         $_SESSION[ 'regenerated' ] = time ();
 
         session_write_close ();
+    }
+
+    public function setSessionName ( $_name )
+    {
+        self::$_session_name = $_name;
+    }
+
+    public static function exist ( $_name )
+    {
+        if ( session_status () !== PHP_SESSION_ACTIVE ) {
+            session_start ();
+        }
+
+        return isset( $_SESSION[ $_name ] );
     }
 
     public function isActive ()

@@ -14,7 +14,7 @@
 use core\App;
 use core\interfaces\iController;
 
-function url ( $_regex, $_controller, ...$params )
+function url ( $_regex, $_controller )
 {
     $_return        = object ( [ ] );
     $_return->regex = regex ( $_regex );
@@ -50,4 +50,8 @@ function append ( $_dir )
     }
 
     return FALSE;
+}
+
+function redirect($url){
+    App::__redirect__($url);
 }

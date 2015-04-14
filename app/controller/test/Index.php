@@ -15,5 +15,13 @@ class Test extends Controller
 {
     public $_default_skull = 'main/Index';
 
-    //public $_model = 'User';
+    public function __init ()
+    {
+        Template::__init ( $this );
+
+        Template::addRegion ( 'title' );
+        Template::write ( 'title', 'Test' );
+
+        return Template::render ();
+    }
 }

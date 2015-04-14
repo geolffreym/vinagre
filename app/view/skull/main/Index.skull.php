@@ -12,13 +12,14 @@ use core\lib\Template;
 <html>
 <head>
     <title>
-        <?php Template::writeRegion ( 'title' ); ?>
+        <?php if ( Template::isRegion ( 'title' ) ): ?>
+            <?php Template::writeRegion ( 'title' ); ?>
+        <?php endif ?>
     </title>
     <?php Template::writeRegion ( 'styles' ); ?>
 </head>
 <body>
 <header id="header">
-    Hi test
     <?php Template::writeRegion ( 'header' ); ?>
 </header>
 <?php Template::writeRegion ( 'scripts' ); ?>

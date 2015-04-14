@@ -34,7 +34,7 @@ function isFunction ( $_function )
 function regex ( $Regex )
 {
     return is_string ( $Regex )
-        ? '/' . $Regex . '/' : FALSE;
+        ? '/' . str_replace ( '/', '\/', $Regex ) . '/' : FALSE;
 }
 
 function str ( $_str )

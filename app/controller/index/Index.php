@@ -7,8 +7,7 @@
  * Time: 12:12 PM
  */
 use core\Controller;
-
-//use \core\Language;
+use core\lib\Template;
 
 class Index extends Controller
 {
@@ -22,6 +21,21 @@ class IndexUser extends Controller
 
     public function __init ()
     {
-        return 'nalga';
+        Template::__init ( $this );
+        Template::addRegion ( 'title' );
+        Template::write ( 'title', 'Index' );
+
+        return Template::render ();
+    }
+
+    public function get ()
+    {
+
+        breakPoint(csrfToken());
+        return 'hi';
+    }
+
+    public function post(){
+        breakPoint($this->Request);
     }
 }

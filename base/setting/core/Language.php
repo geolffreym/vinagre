@@ -14,9 +14,9 @@ final class Language
     public static $_lang_array = [ ];
 
 
-    public function __construct ()
+    public function __init ( $_lang = DEFAULT_LANGUAGE )
     {
-        self::_getLang ( self::$_lang );
+        self::_getLang ( $_lang );
     }
 
     public static function changeLang ( $_lang )

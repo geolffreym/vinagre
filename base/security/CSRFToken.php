@@ -7,12 +7,10 @@
  */
 namespace core\security;
 
-use core\App;
-use core\lib\Session;
+use core\Config;
+use core\Session;
 
-App::__require__ ( 'Session', 'lib' );
-
-class CSRFToken
+final class CSRFToken
 {
     private static $_token = NULL;
     private static $_session = NULL;
@@ -20,31 +18,38 @@ class CSRFToken
     private static $_session_name = CSRF_TOKEN_NAME;
 
     //Metodo Constructor
-
     public function __construct ( $_session = NULL )
     {
 
+        $_sess_name     = isset( $_session ) ? $_session : self::$_session_name;
         self::$_session = new Session;
-        self::$_session->__init ( isset( $_session ) ? $_session : self::$_session_name );
+        self::$_session->setSessionName ( $_sess_name );
+
+        if ( !self::$_session->exist ( $_sess_name ) ) {
+            self::$_session->__init ();
+        }
+
         self::$_is_active_session = self::$_session->isActive ();
     }
 
     //Ininializador de la clase
-
     public static function __init ( $_session_name = NULL )
     {
         return new self( $_session_name );
     }
 
-    //Muestra el nombre del token actual
+    public static function isServiceActive ()
+    {
+        return Config::findConfig ( 'CSRF_TOKEN', [ 'CSRF_TOKEN_PROTECTION' ] );
+    }
 
+    //Muestra el nombre del token actual
     public static function getName ()
     {
         return self::$_session_name;
     }
 
     //Crea un nuevo token
-
     public static function create ()
     {
         return self::$_token = md5 ( uniqid () );
@@ -67,7 +72,7 @@ class CSRFToken
             $_token = self::$_token;
         } elseif ( !isset( $_token ) && !isset( self::$_token ) ) {
             throw new \Exception(
-                "Es necesario el token a guardar"
+                "Token Needed to save"
             );
         }
 

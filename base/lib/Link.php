@@ -45,8 +45,8 @@ class Link
     ];
 
     /**Metodo constructor
-     * @_url string
-     * @www  bool
+     * @param $_url string
+     * @param $www  bool
      * */
     public function __construct ( $_url, $www = FALSE )
     {
@@ -91,7 +91,8 @@ class Link
     }
 
     /**Validar Dominio
-     * @url_img string
+     * @param $_domain string
+     * @return bool
      */
     public function validateDomain ( $_domain )
     {
@@ -130,7 +131,8 @@ class Link
 
     //IMAGENES
     /**Establece la posicion del formato para la busqueda de imagenes
-     * @elemento string
+     * @param $element string
+     * @return string
      * */
     public function formatPosition ( $element )
     {

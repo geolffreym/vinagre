@@ -38,7 +38,7 @@ define( 'DB_READ_DEFAULT_FILE', '' );
 //Mail
 define( 'MAIL_USER', '' );
 define( 'MAIL_PASSWORD', '' );
-define( 'HOST_HOST', '' );
+define( 'MAIL_HOST', '' );
 define( 'MAIL_PORT', '443' );
 
 //Memcached (Install Needed)
@@ -47,18 +47,18 @@ define( 'MEMCACHED_PORT', '' ); //Separate with coma the ports equivalents to se
 define( 'MEMCACHED_WEIGHT', '' ); //Separate with coma the weight (memory) equivalents to servers
 
 //CSRF Token
-define( 'CSRF_TOKEN_PROTECTION', FALSE );
+define( 'CSRF_TOKEN_PROTECTION', TRUE );
 define( 'CSRF_TOKEN_NAME', 'csrf_session' );
 define( 'CSRF_TOKEN_COOKIE_NAME', 'csrf_session' );
 define( 'CSRF_TOKEN_EXPIRE', time () + 8600 );
 
 //SESSION
-define( 'SESS_NAME', 'b_session' );
+define( 'SESS_NAME', 'vinagre_session' );
 define( 'SESS_EXPIRE', 0X2A30 ); // Default 180 (10800 Seconds) Minutes
 define( 'SESS_CACHE', 'public' );
 
 //XSS
-define( 'XSS_GLOBAL_PROTECTION', FALSE );
+define( 'XSS_GLOBAL_PROTECTION', TRUE );
 
 //Time
 define( 'DEFAULT_TIME_ZONE', 'America/Managua' );
