@@ -23,9 +23,9 @@ define( 'DEFAULT_500_PAGE', 'error404.tpl' );
 
 //DB (Db Install needed)
 define( 'DB_HOST', 'localhost' );
-define( 'DB_USER', 'root' );
-define( 'DB_PASS', 'gmena5289' );
-define( 'DB_DATABASE', 'posgrado' );
+define( 'DB_USER', 'myuser' );
+define( 'DB_PASS', 'mypass' );
+define( 'DB_DATABASE', 'mydb' );
 define( 'DB_DRIVER', 'mysqli' );
 define( 'DB_CACHE', FALSE );
 define( 'DB_ASYNC', TRUE );
