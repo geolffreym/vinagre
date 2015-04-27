@@ -14,7 +14,7 @@ final class CSRFToken
 {
     private static $_token = NULL;
     private static $_session = NULL;
-    public static $_is_active_session = FALSE;
+    private static $_is_active_session = FALSE;
     private static $_session_name = CSRF_TOKEN_NAME;
 
     //Metodo Constructor
@@ -26,7 +26,7 @@ final class CSRFToken
         self::$_session->setSessionName ( $_sess_name );
 
         if ( !self::$_session->exist ( $_sess_name ) ) {
-            self::$_session->__init ($_sess_name);
+            self::$_session->__init ( $_sess_name );
         }
 
         self::$_is_active_session = self::$_session->isActive ();
@@ -41,6 +41,11 @@ final class CSRFToken
     public static function isServiceActive ()
     {
         return Config::findConfig ( 'CSRF_TOKEN', [ 'CSRF_TOKEN_PROTECTION' ] );
+    }
+
+    public static function isActive ()
+    {
+        return self::$_is_active_session;
     }
 
     //Muestra el nombre del token actual

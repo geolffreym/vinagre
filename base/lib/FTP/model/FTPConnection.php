@@ -13,13 +13,13 @@ use core\lib\interfaces\ftp\iFTPConf;
 
 class FTPConnection
 {
-    public static $_connection = NULL;
-    public static $_login = NULL;
-    public static $_connected = FALSE;
+    private static $_connection = NULL;
+    private static $_login = NULL;
+    private static $_connected = FALSE;
 
     public function __construct ( iFTPConf $FTPConf, $_callback )
     {
-        if ( ! ( self::$_connection = ftp_connect (
+        if ( !( self::$_connection = ftp_connect (
             $FTPConf->getHost (),
             $FTPConf->getPort (),
             $FTPConf->getTimeOut ()

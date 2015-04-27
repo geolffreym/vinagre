@@ -11,13 +11,13 @@ use core\lib\Template;
 
 class Index extends Controller
 {
-    public $_default_skull = 'main/Index';
+    public $Template = 'main/Index';
 }
 
 
 class IndexUser extends Controller
 {
-    public $_default_skull = 'main/Index';
+    public $Template = 'main/Index';
 
     public function __init ()
     {
@@ -30,7 +30,8 @@ class IndexUser extends Controller
 
     public function post ()
     {
-       return $this->Json->write ( [ 0 ] );
+        return $this->Json->write ( [ 0, 1, 2 ] );
     }
+
 
 }

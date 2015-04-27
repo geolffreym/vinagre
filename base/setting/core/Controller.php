@@ -15,16 +15,17 @@ class Controller implements iController
 {
 
     public $Name = NULL;
-    public $Request = NULL;
+    public $Request = [];
     protected $Session = NULL;
+    protected $Model = NULL;
+    protected $Tpl = NULL;
 
     private $_language = NULL;
+
     private $_loader = NULL;
     private static $_class = [ ];
 
-    protected $_controller = NULL;
-    protected $_model = NULL;
-    protected $_default_skull = NULL;
+    // protected $_controller = NULL;
 
     final public function __construct ()
     {
@@ -41,6 +42,8 @@ class Controller implements iController
 
         //Init Session /lib
         $this->Session = new Session();
+        //$this->Session->regenerate();
+        $this->Session->__init ();
 
         //Init CSRF Token if active
         if ( CSRFToken::isServiceActive () ) {
@@ -48,9 +51,9 @@ class Controller implements iController
         }
 
         //Init Model
-        if ( isset( $this->_model ) ) {
-            if ( App::__exist__ ( $this->_model, 'model' ) )
-                $this->_model = App::__instance__ ( $this->_model, 'model' );
+        if ( isset( $this->Model ) ) {
+            if ( App::__exist__ ( $this->Model, 'model' ) )
+                $this->Model = App::__instance__ ( $this->Model, 'model' );
         }
     }
 
@@ -64,25 +67,6 @@ class Controller implements iController
         return $this->renderToResponse ( $_context );
     }
 
-
-    public function filterPost ( &$_post )
-    {
-
-        if ( CSRFToken::isServiceActive () ) {
-            if ( !isset( $_post[ 'csrf_token' ] ) )
-                Common::error503 ( 'Undefined CSRF Token' );
-
-            if ( !CSRFToken::validate ( $_post[ 'csrf_token' ] ) )
-                Common::error503 ( 'Invalid Token' );
-
-        }
-
-        if ( Config::findConfig ( 'XSS_GLOBAL', [ 'XSS_GLOBAL_PROTECTION' ] ) ) {
-            $_xss = App::__load__ ( 'XSS', 'security', 'core\\security' );
-            $_xss->cleanRequest ( $_post );
-        }
-
-    }
 
     public static function asView ()
     {
@@ -107,7 +91,7 @@ class Controller implements iController
 
     protected function setSkull ( $_skull )
     {
-        $this->_default_skull = $_skull;
+        $this->Tpl = $_skull;
     }
 
     public function renderToResponse ( $_context = NULL )
@@ -115,11 +99,11 @@ class Controller implements iController
         $_context = !isset( $_context )
             ? $this->contextData () : $_context;
 
-        if ( !empty( $this->_default_skull ) ) {
-            if ( ( $_template = App::__render__ ( $this->_default_skull . '.skull', $_context ) ) ) {
+        if ( !empty( $this->Tpl ) ) {
+            if ( ( $_template = App::__render__ ( $this->Tpl . '.skull', $_context ) ) ) {
                 return [ 'template' => $_template ];
             } else {
-                Common::error503 ( $this->_default_skull . ' does\'t exist.' );
+                Common::error503 ( $this->Tpl . ' does\'t exist.' );
             }
         }
 

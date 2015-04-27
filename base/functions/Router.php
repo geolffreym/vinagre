@@ -42,11 +42,13 @@ function append ( $_dir )
     $_dir     = 'controller/' . $_explode[ 0 ];
 
     if ( App::__exist__ ( 'URL', $_dir ) ) {
-        return (object) [
-            'controller' => $_explode[ 0 ],
-            'file'       => $_explode[ 1 ],
-            'dir'        => $_dir
-        ];
+        return object (
+            [
+                'controller' => $_explode[ 0 ],
+                'file'       => $_explode[ 1 ],
+                'dir'        => $_dir
+            ]
+        );
     }
 
     return FALSE;

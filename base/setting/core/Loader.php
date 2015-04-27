@@ -15,7 +15,6 @@ final class Loader
     private static $_libraries = [ ];
     private static $_helpers = [ ];
     private static $_traits = [ ];
-    private static $_database = [ ];
     private static $_interfaces = [ ];
     private static $_sparks = [ ];
     private static $_security = [ ];
@@ -25,7 +24,6 @@ final class Loader
     private static $_libraries_dir = 'lib';
     private static $_interfaces_dir = 'interface';
     private static $_helper_dir = 'helper';
-    private static $_database_dir = 'db/driver/';
     private static $_traits_dir = 'traits';
     private static $_sparks_dir = 'sparks';
 
@@ -114,7 +112,6 @@ final class Loader
 
         $this->_dinamicProperty ( self::$_libraries, self::$_libraries_dir, $controller, 'core\\lib' );
         $this->_dinamicRequire ( self::$_helpers, self::$_helper_dir, 'Helper' );
-        $this->_dinamicRequire ( self::$_database, self::$_database_dir . self::_switchDriver ( DB_DRIVER ) . '/helper', 'Helper' );
         $this->_dinamicInterfaces ( self::$_interfaces, self::$_interfaces_dir );
         $this->_dinamicRequire ( self::$_traits, self::$_traits_dir );
         $this->_dinamicRequire ( self::$_security, self::$_security_dir );
@@ -150,12 +147,6 @@ final class Loader
     public static function security ()
     {
         self::$_security = func_get_args ();
-    }
-
-
-    public static function db ()
-    {
-        self::$_database = func_get_args ();
     }
 
     public static function spark ()

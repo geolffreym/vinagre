@@ -31,8 +31,7 @@ App::__interface__ ( 'iModel', 'interface' );
 App::__interface__ ( 'iFactory', 'interface' );
 
 
-//////////////////BASIC REQUIRE//////////////////
-
+///////////////////FUNCTIONS//////////////////////
 //Functions Util
 App::__require__ ( 'Util', 'functions' );
 
@@ -47,6 +46,9 @@ App::__require__ ( 'Shortcuts', 'functions' );
 
 //Functions Template
 App::__require__ ( 'Template', 'functions' );
+
+
+////////////////////CLASS/////////////////////////
 
 //Controller Class
 App::__require__ ( 'URI', 'core' );

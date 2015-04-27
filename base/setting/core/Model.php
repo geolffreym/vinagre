@@ -28,8 +28,8 @@ abstract class Model implements iModel
 
     final public function __construct ()
     {
-        $this->switchDb ( DB_DRIVER );
-        $this->activeCache ( DB_CACHE );
+        //$this->activeCache ( DB_CACHE );
+        $this->db = App::__load__ ( 'Db', 'db/adapter', 'core\\adapter\\db' );
         $this->_name = $this->getModelName ();
 
     }
@@ -104,11 +104,6 @@ abstract class Model implements iModel
         return self::$_alias[ $this->_name ];
     }
 
-    //Return Error
-    final public function error ()
-    {
-        return $this->db->Error->getErrorDescription ();
-    }
 
     /**Validate Fields and verify the fields if exist in model
      * @param $field
@@ -129,26 +124,12 @@ abstract class Model implements iModel
 
     }
 
-    final public function switchDb ( $_driver )
-    {
-        switch ( $_driver ) {
-            case 'mysql':
-            case 'mysqli':
-            default:
-                $this->db = App::__load__ ( 'MySql', 'db/driver', 'core\\db\\mysql\\model' );
-                break;
-            case 'oci8':
-                $this->db = App::__load__ ( 'Oracle', 'db/driver', 'core\\db\\oracle\\model' );
-                break;
-        }
-    }
-
-    final public function activeCache ( $_cache = TRUE )
-    {
-        if ( $_cache ) {
-            $this->cache = App::__load__ ( 'Cache', 'lib' );
-        }
-    }
+//    final public function activeCache ( $_cache = TRUE )
+//    {
+//        if ( $_cache ) {
+//            $this->cache = App::__load__ ( 'Cache', 'lib' );
+//        }
+//    }
 
     private function _generateAliases ()
     {

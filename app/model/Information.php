@@ -8,8 +8,9 @@
 
 use core\Model;
 
+
 class Information extends Model
 {
-    public $_name_;
+    public $_name_; //By convention the model attributes must be named as _attr_
 
 }

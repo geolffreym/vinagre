@@ -10,8 +10,8 @@ namespace core;
 
 final class App
 {
-    public static $_class = [ ];
-    static $_loaded_class = [ ];
+    private static $_class = [ ];
+    private static $_loaded_class = [ ];
 
     //Auto Invoke Class
     public function __invoke ()
@@ -156,18 +156,10 @@ final class App
         }
     }
 
-    /**Redirect Url
-     * @param $_url
-     * */
-    public static function __redirect__ ( $_url )
-    {
-        header ( 'HTTP/1.1 307 Temporary Redirect.', TRUE, 404 );
-        header ( 'Location:' . $_url, 30 );
-    }
 
     public static function __callback__ ( $_callback, $_param )
     {
-        if ( $_callback && isFunction ( $_callback ) ) {
+        if ( !empty( $_callback ) && isFunction ( $_callback ) ) {
             return $_callback( $_param );
         }
 

@@ -13,7 +13,7 @@ use core\lib\Template;
 
 class Test extends Controller
 {
-    public $_default_skull = 'main/Index';
+    public $Tpl = 'main/Index';
 
     public function __init ()
     {
@@ -21,7 +21,8 @@ class Test extends Controller
 
         Template::addRegion ( 'title' );
         Template::write ( 'title', 'Test' );
-
+        //CSRFToken();
+        //var_dump( $_SESSION);
         return Template::render ();
     }
 }

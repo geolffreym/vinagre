@@ -24,7 +24,8 @@ class DateHelper
     }
 
     /**Convierte fecha en unix date
-     * @fecha string
+     * @param $_date string
+     * @return string
      */
     public static function unixTime ( $_date )
     {
@@ -32,7 +33,8 @@ class DateHelper
     }
 
     /**Devuelve la fecha en un object en formato de texto
-     * @fecha string
+     * @param $_date string
+     * @return object
      */
     public static function dateFormat ( $_date = 'now' )
     {
@@ -50,24 +52,24 @@ class DateHelper
         $_hourInt     = date ( 'h', $_unixTime );
         $_minutesInt  = date ( 'i', $_unixTime );
         $_secondsInt  = date ( 's', $_unixTime );
-        $_meridiano   = date ( 'a', $_unixTime );
+        $_meridian    = date ( 'a', $_unixTime );
 
 
-        $_newTime->past->dia       = $_pastTime->d;
-        $_newTime->past->dia_total = $_pastTime->days;
-        $_newTime->past->mes       = $_pastTime->m;
-        $_newTime->past->anio      = $_pastTime->y;
-        $_newTime->past->hora      = $_pastTime->h;
-        $_newTime->past->minuto    = $_pastTime->m;
-        $_newTime->past->segundo   = $_pastTime->s;
+        $_newTime->past->day     = $_pastTime->d;
+        $_newTime->past->days    = $_pastTime->days;
+        $_newTime->past->month   = $_pastTime->m;
+        $_newTime->past->year    = $_pastTime->y;
+        $_newTime->past->hour    = $_pastTime->h;
+        $_newTime->past->minute  = $_pastTime->m;
+        $_newTime->past->seconds = $_pastTime->s;
 
-        $_newTime->date->dia       = $_dayString;
-        $_newTime->date->mes       = $_monthString;
-        $_newTime->date->anio      = $_yearInt;
-        $_newTime->date->hora      = $_hourInt;
-        $_newTime->date->minuto    = $_minutesInt;
-        $_newTime->date->segundo   = $_secondsInt;
-        $_newTime->date->meridiano = $_meridiano;
+        $_newTime->date->day      = $_dayString;
+        $_newTime->date->month    = $_monthString;
+        $_newTime->date->year     = $_yearInt;
+        $_newTime->date->hour     = $_hourInt;
+        $_newTime->date->minute   = $_minutesInt;
+        $_newTime->date->seconds  = $_secondsInt;
+        $_newTime->date->meridian = $_meridian;
 
         $_newTime->date->complete = $_date;
         $_newTime->date->unix     = $_unixTime;
@@ -75,46 +77,47 @@ class DateHelper
         return $_newTime;
     }
 
-    /**Fix Time
-     * @param $_dates
-     * @param $_index
-     * @param $time_zone
-     * @throws String
-     * @return Array
-     * */
-    public static function fixTime ( $_dates, $_index = NULL, $time_zone = 'America/Mexico_City' )
-    {
-        $_diference     = 0x5460;
-        $_fix_strtotime = 0x6270;
-
-        if ( !is_array ( $_dates ) || !isset( $_index ) ) {
-            throw new \Exception(
-                'Array Needed and Index'
-            );
-        }
-
-        date_default_timezone_set ( $time_zone );
-        foreach ( $_dates as $k => $_date ) {
-
-            if ( !empty( $_date[ $_index ] ) ) {
-                $_date     = $_date[ $_index ];
-                $_fix_date = &$_dates[ $k ][ 'fix_date' ];
-            } elseif ( $k === $_index ) {
-                $_fix_date = &$_dates[ 'fix_date' ];
-            } else {
-                continue;
-            }
-
-            $_date_time = new \DateTime( $_date );
-            $_date      = $_date_time->format ( 'd-m-Y h:i:s' );
-
-            $_fix_date = [
-                'unix_date' => ( strtotime ( $_date ) + $_fix_strtotime ),
-                'time'      => $_time = time () - $_diference,
-                'format'    => $_date
-            ];
-        }
-
-        return $_dates;
-    }
+#TODO Fix time zone
+//    /**Fix local Time to default time zone
+//     * @param $_dates
+//     * @param $_index
+//     * @param $time_zone
+//     * @throws String
+//     * @return Array
+//     * */
+//    public static function fixTime ( $_dates, $_index = NULL, $time_zone = 'America/Mexico_City' )
+//    {
+//        $_diference     = 0x5460;
+//        $_fix_strtotime = 0x6270;
+//
+//        if ( !is_array ( $_dates ) || !isset( $_index ) ) {
+//            throw new \Exception(
+//                'Array Needed and Index'
+//            );
+//        }
+//
+//        date_default_timezone_set ( $time_zone );
+//        foreach ( $_dates as $k => $_date ) {
+//
+//            if ( !empty( $_date[ $_index ] ) ) {
+//                $_date     = $_date[ $_index ];
+//                $_fix_date = &$_dates[ $k ][ 'fix_date' ];
+//            } elseif ( $k === $_index ) {
+//                $_fix_date = &$_dates[ 'fix_date' ];
+//            } else {
+//                continue;
+//            }
+//
+//            $_date_time = new \DateTime( $_date );
+//            $_date      = $_date_time->format ( 'd-m-Y h:i:s' );
+//
+//            $_fix_date = [
+//                'unix_date' => ( strtotime ( $_date ) + $_fix_strtotime ),
+//                'time'      => $_time = time () - $_diference,
+//                'format'    => $_date
+//            ];
+//        }
+//
+//        return $_dates;
+//    }
 }

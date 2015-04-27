@@ -18,7 +18,7 @@ class URL implements iURL
     {
         return [
             url ( '^$', \Test::asView () ),
-            url ( '^(?<action>view)', \Test::asView () ),
+//            url ( '^(?<action>view)', \Test::asView () ),
         ];
     }
 }

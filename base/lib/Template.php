@@ -67,7 +67,7 @@ class Template
     public static function setSkull ( $_skull )
     {
         if ( App::__exist__ ( $_skull . '.skull', 'view/skull/' ) ) {
-            self::$_controller->_default_skull = $_skull;
+            self::$_controller->Tpl = $_skull;
         } else {
             Common::error503 ( 'Skull ' . $_skull . ' does\'t exist' );
         }

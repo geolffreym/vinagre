@@ -24,8 +24,6 @@ interface iModel
 
     public function prepareFields ( $fields );
 
-    public function error ();
-
     public function getAlias ();
 
     public function validateField ( $field );

@@ -42,9 +42,9 @@ define( 'MAIL_HOST', '' );
 define( 'MAIL_PORT', '443' );
 
 //Memcached (Install Needed)
-define( 'MEMCACHED_SERVER', '' ); //Separate with coma if you need different host
-define( 'MEMCACHED_PORT', '' ); //Separate with coma the ports equivalents to servers
-define( 'MEMCACHED_WEIGHT', '' ); //Separate with coma the weight (memory) equivalents to servers
+define( 'CACHE_SERVER', '' ); //Separate with coma if you need different host
+define( 'CACHE_PORT', '' ); //Separate with coma the ports equivalents to servers
+define( 'CACHE_WEIGHT', '' ); //Separate with coma the weight (memory) equivalents to servers
 
 //CSRF Token
 define( 'CSRF_TOKEN_PROTECTION', TRUE );
@@ -56,6 +56,7 @@ define( 'CSRF_TOKEN_EXPIRE', time () + 8600 );
 define( 'SESS_NAME', 'vinagre_session' );
 define( 'SESS_EXPIRE', 0X2A30 ); // Default 180 (10800 Seconds) Minutes
 define( 'SESS_CACHE', 'public' );
+//http://php.net/manual/es/function.session-cache-limiter.php
 
 //XSS
 define( 'XSS_GLOBAL_PROTECTION', TRUE );
@@ -73,9 +74,3 @@ define( 'FTP_PORT', 21 );
 define( 'FTP_TIMEOUT', 90 );
 define( 'FTP_USER', '' );
 define( 'FTP_PASS', '' );
-
-
-//Google Captcha
-define( 'CAPTCHA_SERVER', "" );
-define( 'CAPTCHA_PUBLIC_KEY', "" );
-define( 'CAPTCHA_PRIVATE_KEY', "" );

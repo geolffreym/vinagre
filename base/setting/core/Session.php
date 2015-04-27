@@ -18,17 +18,17 @@ final class Session
 
     public function __init ( $_session_name = FALSE )
     {
-        if ( session_status () !== PHP_SESSION_ACTIVE ) {
-            session_start ();
-        }
-
-        //session_cache_limiter ( SESS_CACHE );
-        self::$_session_name              = session_name ( $_session_name ? $_session_name : SESS_NAME );
+        self::_openSession ();
+        self::$_session_name = $_session_name ? $_session_name : SESS_NAME;
+        session_cache_limiter ( SESS_CACHE );
+        //session_name ( self::$_session_name );
         $_SESSION[ self::$_session_name ] = [ ];
     }
 
     public function regenerate ()
     {
+        self::_openSession ();
+
         $old_session_id   = session_id ();
         $old_session_data = $_SESSION;
 
@@ -53,9 +53,7 @@ final class Session
 
     public static function exist ( $_name )
     {
-        if ( session_status () !== PHP_SESSION_ACTIVE ) {
-            session_start ();
-        }
+        self::_openSession ();
 
         return isset( $_SESSION[ $_name ] );
     }
@@ -127,5 +125,10 @@ final class Session
         }
 
         return FALSE;
+    }
+
+    private static function _openSession ()
+    {
+        if ( session_status () !== PHP_SESSION_ACTIVE ) session_start ();
     }
 }

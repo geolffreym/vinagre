@@ -8,12 +8,18 @@
 
 namespace core;
 
+
+App::__require__ ( 'HttpAdapter', 'adapter' );
+
+use core\adapter\HttpAdapter;
 use core\interfaces\iController;
 use core\interfaces\iURL;
 use core\traits\DataStructure;
 
-final class Router extends Http
+
+final class Router extends HttpAdapter
 {
+
     private static $_method = 'GET';
     private static $_matched = [ ];
     private static $_response = NULL;
@@ -36,17 +42,31 @@ final class Router extends Http
             ? str_replace ( $ValidURLS->controller, '', strtolower ( $ValidURLS->uri ) )
             : $ValidURLS->uri;
         $ValidURLS->uri = ltrim ( $ValidURLS->uri, '/' );
+
+        //Give query string support
+        if ( ( @preg_match ( regex ( '\?.*' ), $ValidURLS->uri, $buffer ) ) ) {
+            $ValidURLS->uri = str_replace ( $buffer[ 0 ], '', $ValidURLS->uri );
+
+            //Parsing Query String
+            parse_str ( str_replace ( '?', '', $buffer[ 0 ] ), $buffer );
+            $ValidURLS->app->Request = $buffer;
+        }
     }
 
     private function handleMethod ( &$ValidURLS, $_buffer )
     {
         //Parse Request
-        $ValidURLS->app->Request = $_request = ( DataStructure::cleanNumericKeys ( $_buffer ) );
+        $ValidURLS->app->Request += $_request = ( DataStructure::cleanNumericKeys ( $_buffer ) );
 
         //Handle Post
         if ( $this->isPost () ) {
-            $ValidURLS->app->filterPost ( $_POST );
+            $this->filterRequest ( $_POST );
             $ValidURLS->app->Request = array_merge ( $_POST, $_request );
+        }
+
+        //Handle Get
+        if ( $this->isGet () ) {
+            $this->filterRequest ( $ValidURLS->app->Request );
         }
 
         //Assign Request to Controller

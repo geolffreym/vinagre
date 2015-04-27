@@ -10,7 +10,7 @@ namespace core;
 
 final class Config
 {
-    static $_config = [ ];
+    private static $_config = [ ];
 
     /*** Compare with defined constant to validate if is declared or not
      * @param $_name

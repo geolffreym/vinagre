@@ -39,4 +39,13 @@ final class Common
         }
         die( $_message );
     }
+
+    /**Redirect Url
+     * @param $_url
+     * */
+    public static function redirect ( $_url )
+    {
+        header ( 'HTTP/1.1 307 Temporary Redirect.', TRUE, 404 );
+        header ( 'Location:' . $_url, 30 );
+    }
 }

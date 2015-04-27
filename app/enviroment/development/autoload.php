@@ -14,4 +14,3 @@ Loader::helpers ( 'Array' );
 Loader::traits ( 'DataStructure', 'String' );
 
 //Loader::spark ( 'Multimedia' ); //Loose Coupling
-Loader::db ( 'Q' );

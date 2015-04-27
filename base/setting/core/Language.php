@@ -10,8 +10,8 @@ namespace core;
 
 final class Language
 {
-    public static $_lang = DEFAULT_LANGUAGE;
-    public static $_lang_array = [ ];
+    private static $_lang = DEFAULT_LANGUAGE;
+    private static $_lang_array = [ ];
 
 
     public function __init ( $_lang = DEFAULT_LANGUAGE )

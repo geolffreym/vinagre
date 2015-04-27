@@ -147,7 +147,7 @@ final class DBBuilder // implements iDBBuilder
         $this->_models[ ]          = $_model;
         $this->_temp_model         = $_model;
         $_model                    = $this->_filterNameModel ( $_model );
-        $this->_query[ 'join' ][ ] = ' ' . $_type . '  OUTER JOIN ' . $_model;
+        $this->_query[ 'join' ][ ] = ' ' . $_type . '  JOIN ' . $_model;
 
         return $this;
     }

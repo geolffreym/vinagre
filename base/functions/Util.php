@@ -7,7 +7,7 @@
  */
 use core\Common;
 
-/**Encapsula cadena
+/**Wrap string
  * @param $string
  * @param wrap
  * @return String
@@ -17,6 +17,13 @@ function wrapStr ( $string, $wrap )
     return $wrap . $string . $wrap;
 }
 
+
+/**Assertion function
+ * @param $_valid
+ * @param $_message
+ * @param $_optional
+ * @return void
+ */
 function asserts ( &$_valid, $_message, $_optional = NULL )
 {
     if ( empty( $_valid ) && empty( $_optional ) ) {
