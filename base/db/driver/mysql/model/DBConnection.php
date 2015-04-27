@@ -28,7 +28,7 @@ final class DBConnection implements iDBConnection
     public function __construct ( iDBConf $conf, $_callback )
     {
         self::$_connection = @new \MySqli();
-        if ( !self::$_connection->real_connect (
+        if ( !@self::$_connection->real_connect (
             $conf::getHost (),
             $conf::getUser (),
             $conf::getPass (),

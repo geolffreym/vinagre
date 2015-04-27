@@ -8,9 +8,10 @@
 namespace core\security;
 
 use core\Config;
+use core\interfaces\iService;
 use core\Session;
 
-final class CSRFToken
+final class CSRFToken implements iService
 {
     private static $_token = NULL;
     private static $_session = NULL;

@@ -9,15 +9,16 @@
 namespace core\adapter\db;
 
 use core\App;
+
 # TODO Crear adaptador que integre DBBuilder y DBResult similar a django ORM (filter, get, etc..)
 class Db
 {
 
-    private $_db = null;
+    private $_db = NULL;
 
     public function __construct ()
     {
-        $this->switchDb ( DB_DRIVER );
+        $this->_db = $this->switchDb ( DB_DRIVER );
     }
 
     final public function switchDb ( $_driver )
@@ -26,10 +27,10 @@ class Db
             case 'mysql':
             case 'mysqli':
             default:
-                $this->_db = App::__load__ ( 'MySql', 'db/driver', 'core\\db\\mysql\\model' );
+                return App::__load__ ( 'MySql', 'db/driver', 'core\\db\\mysql\\model' );
                 break;
             case 'oci8':
-                $this->_db = App::__load__ ( 'Oracle', 'db/driver', 'core\\db\\oracle\\model' );
+                return App::__load__ ( 'Oracle', 'db/driver', 'core\\db\\oracle\\model' );
                 break;
         }
     }

@@ -12,5 +12,4 @@ use core\Loader;
 Loader::libraries ( 'Template', 'Json' );
 Loader::helpers ( 'Array' );
 Loader::traits ( 'DataStructure', 'String' );
-
 //Loader::spark ( 'Multimedia' ); //Loose Coupling

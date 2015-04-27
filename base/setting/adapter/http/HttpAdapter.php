@@ -11,9 +11,11 @@ namespace core\adapter;
 
 use core\App;
 use core\Common;
-use core\Config;
 use core\Http;
 use core\security\CSRFToken;
+use core\security\XSS;
+
+App::__require__ ( 'Http', 'core' );
 
 abstract class HttpAdapter extends Http
 {
@@ -31,9 +33,8 @@ abstract class HttpAdapter extends Http
         }
 
 
-        if ( Config::findConfig ( 'XSS_GLOBAL', [ 'XSS_GLOBAL_PROTECTION' ] ) ) {
-            $_xss = App::__load__ ( 'XSS', 'security', 'core\\security' );
-            $_xss->cleanRequest ( $_request );
+        if ( XSS::isServiceActive () ) {
+            XSS::cleanRequest ( $_request );
         }
 
     }

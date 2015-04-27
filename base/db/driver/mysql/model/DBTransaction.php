@@ -52,7 +52,7 @@ final class DBTransaction implements iDBTransaction
             if ( self::$_TransactionActive ) {
                 return self::$_DBConnection->commit ();
             } else {
-                Exception::noTransactionActive ();
+                Exception::throwException ( 'noTransactionActive' );
             }
         } else {
             return self::$_AutoCommit;

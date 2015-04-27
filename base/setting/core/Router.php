@@ -9,15 +9,14 @@
 namespace core;
 
 
-App::__require__ ( 'HttpAdapter', 'adapter' );
-
 use core\adapter\HttpAdapter;
-use core\interfaces\iController;
 use core\interfaces\iURL;
-use core\traits\DataStructure;
+use core\interfaces\iController;
+
+App::__require__ ( 'HttpAdapter', 'adapter/http' );
 
 
-final class Router extends HttpAdapter
+class Router extends HttpAdapter
 {
 
     private static $_method = 'GET';
@@ -53,21 +52,8 @@ final class Router extends HttpAdapter
         }
     }
 
-    private function handleMethod ( &$ValidURLS, $_buffer )
+    protected function handleMethod ( &$ValidURLS, $_request )
     {
-        //Parse Request
-        $ValidURLS->app->Request += $_request = ( DataStructure::cleanNumericKeys ( $_buffer ) );
-
-        //Handle Post
-        if ( $this->isPost () ) {
-            $this->filterRequest ( $_POST );
-            $ValidURLS->app->Request = array_merge ( $_POST, $_request );
-        }
-
-        //Handle Get
-        if ( $this->isGet () ) {
-            $this->filterRequest ( $ValidURLS->app->Request );
-        }
 
         //Assign Request to Controller
         $ValidURLS->app->Request             = object ( $ValidURLS->app->Request );
@@ -94,23 +80,24 @@ final class Router extends HttpAdapter
     public function matchRoute ( iURL $URL )
     {
         foreach ( $URL->getUrl () as $ValidURLS ) {
+
+            Exception::create ( function () use ( $ValidURLS ) {
+                    return !empty($ValidURLS->app) && $ValidURLS->app instanceof iController;
+                }, 'The instance of the ' . get_class ( $ValidURLS ) . ' must be ' . 'iController'
+            );
+
+
             self::appendUri ( $ValidURLS );
 
             $_Regex = $ValidURLS->regex;
             $_Uri   = $ValidURLS->uri;
 
             if ( isset( $ValidURLS->app ) ) {
-                if ( @preg_match ( $_Regex, rtrim ( $_Uri, '/' ), $_buffer ) ) {
+                if ( !@preg_match ( $_Regex, rtrim ( $_Uri, '/' ), $_buffer ) ) continue;
+                self::$_matched[ $ValidURLS->uri ] = $_Regex;
+                $this->handleMethod ( $ValidURLS, $_buffer );
+                break;
 
-                    Exception::create ( function () use ( $ValidURLS ) {
-                            return $ValidURLS->app instanceof iController;
-                        }, 'The instance of the ' . get_class ( $ValidURLS ) . ' must be ' . 'iController'
-                    );
-
-                    self::$_matched[ $ValidURLS->uri ] = $_Regex;
-                    $this->handleMethod ( $ValidURLS, $_buffer );
-                    break;
-                }
             }
 
         };

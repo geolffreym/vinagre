@@ -8,8 +8,10 @@
 
 namespace core\security;
 
+use core\Config;
+use core\interfaces\iService;
 
-final class XSS
+final class XSS implements iService
 {
     public static function htmlEntity ( $_html )
     {
@@ -31,5 +33,10 @@ final class XSS
         foreach ( $_post as $k => $_post_fix ) {
             $_post[ $k ] = self::htmlEntity ( $_post_fix );
         }
+    }
+
+    public static function isServiceActive ()
+    {
+        return Config::findConfig ( 'XSS_GLOBAL', [ 'XSS_GLOBAL_PROTECTION' ] );
     }
 } 

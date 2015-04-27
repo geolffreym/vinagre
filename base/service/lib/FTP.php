@@ -9,13 +9,15 @@
 namespace core\lib;
 
 use core\App;
+use core\Config;
+use core\interfaces\iService;
 use core\lib\interfaces\ftp\iFTPController;
 use core\lib\model\ftp\FTPController;
 
 
 App::__require__ ( 'FTPController', 'lib/model/' );
 
-class FTP extends FTPController implements iFTPController
+class FTP extends FTPController implements iFTPController, iService
 {
     public $Connection = NULL;
     public $Directory = NULL;
@@ -27,5 +29,10 @@ class FTP extends FTPController implements iFTPController
         $this->Connection = $this->FTPConnection;
         $this->Directory  = $this->FTPDirectory;
         $this->File       = $this->FTPFile;
+    }
+
+    public static function isServiceActive ()
+    {
+        return Config::findConfig ( 'FTP_ACTIVE', [ 'FTP_ACTIVE' ] );
     }
 } 

@@ -11,13 +11,14 @@ use core\lib\Template;
 
 class Index extends Controller
 {
-    public $Template = 'main/Index';
+    public $Tpl = 'main/Index';
+    public $Model = 'Information';
 }
 
 
 class IndexUser extends Controller
 {
-    public $Template = 'main/Index';
+    public $Tpl = 'main/Index';
 
     public function __init ()
     {

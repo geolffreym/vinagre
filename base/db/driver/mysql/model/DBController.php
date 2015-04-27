@@ -48,7 +48,7 @@ class DBController implements iDBController
 
                 Exception::create ( function () use ( $_connection ) {
                         return $_connection::isConnected ();
-                    }, 'Error Connecting DB' . $this->DBError->getConnectionError ()
+                    }, Exception::getExceptionList ( 'core' )[ 'cantConnectDB' ] . $this->DBError->getConnectionError ()
                 );
 
                 if ( Config::findConfig ( 'DB_CHARSET', [ 'DB_ENCODING' ] ) )

@@ -9,12 +9,14 @@
 namespace core\lib;
 
 use core\App;
+use core\Config;
+use core\interfaces\iService;
 use core\lib\interfaces\cache\iCacheController;
 use core\lib\model\cache\CacheController;
 
 App::__require__ ( 'CacheController', 'lib/model' );
 
-class Cache extends CacheController implements iCacheController
+class Cache extends CacheController implements iCacheController, iService
 {
     public static $Connection = NULL;
     public static $Result = NULL;
@@ -29,6 +31,12 @@ class Cache extends CacheController implements iCacheController
         self::$Error      = parent::getCacheError ();
         self::$Util       = parent::getCacheUtil ();
     }
+
+    public static function isServiceActive ()
+    {
+        return Config::findConfig ( 'CACHE_ACTIVE', [ 'CACHE_ACTIVE' ] );
+    }
+
 }
 
 

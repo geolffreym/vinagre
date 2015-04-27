@@ -6,6 +6,9 @@
  * Time: 10:10 AM
  */
 namespace core;
+
+use core\adapter\RouterAdapter;
+
 require_once ( SETTING_PATH . '/core/Application.php' );
 
 define( 'B_VERSION', '1.0' );
@@ -29,6 +32,7 @@ App::__interface__ ( 'iURL', 'interface' );
 App::__interface__ ( 'iController', 'interface' );
 App::__interface__ ( 'iModel', 'interface' );
 App::__interface__ ( 'iFactory', 'interface' );
+App::__interface__ ( 'iService', 'interface' );
 
 
 ///////////////////FUNCTIONS//////////////////////
@@ -53,12 +57,6 @@ App::__require__ ( 'Template', 'functions' );
 //Controller Class
 App::__require__ ( 'URI', 'core' );
 
-//Http Class
-App::__require__ ( 'Http', 'core' );
-
-//Router Class
-App::__require__ ( 'Router', 'core' );
-
 //Exception Class
 App::__require__ ( 'Exception', 'core' );
 
@@ -81,9 +79,16 @@ App::__require__ ( 'Session', 'core' );
 App::__require__ ( 'Language', 'core' );
 
 
+///////////////////ADAPTERS//////////////
+//RouterAdapter Class
+App::__require__ ( 'RouterAdapter', 'adapter/router' );
+
 ////////////////SECURITY/////////////////////
 //CSRFToken Class
-App::__require__ ( 'CSRFToken', 'security' );
+App::__require__ ( 'CSRFToken', 'service/security' );
+
+//XSS Class
+App::__require__ ( 'XSS', 'service/security' );
 
 
 //////////////////TIMEZONE//////////////////
@@ -107,7 +112,7 @@ if ( Config::findConfig ( 'GZIP', [ 'ACTIVE_GZIP' ] ) ) {
 //////////////////ROUTING//////////////////
 //URI Object
 $URI    = new URI( $_SERVER[ 'REQUEST_URI' ] );
-$Router = new Router;
+$Router = new RouterAdapter;
 
 $Router->matchRoute ( $URI->checkUri () );
 $Router->writeResponse ();

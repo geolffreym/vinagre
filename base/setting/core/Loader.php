@@ -17,10 +17,8 @@ final class Loader
     private static $_traits = [ ];
     private static $_interfaces = [ ];
     private static $_sparks = [ ];
-    private static $_security = [ ];
     private static $_instance = NULL;
 
-    private static $_security_dir = 'security';
     private static $_libraries_dir = 'lib';
     private static $_interfaces_dir = 'interface';
     private static $_helper_dir = 'helper';
@@ -90,20 +88,6 @@ final class Loader
         return FALSE;
     }
 
-    private function _switchDriver ( $_driver )
-    {
-        switch ( $_driver ) {
-            case 'oci8':
-                return 'oci8';
-                break;
-            case 'mysql':
-            case 'mysqli':
-            default:
-                return 'mysql';
-                break;
-        }
-    }
-
     public function autoloader ( iController &$controller )
     {
         if ( !App::__require__ ( 'autoload', 'enviroment/' . ENVIRONMENT, TRUE ) ) {
@@ -114,7 +98,6 @@ final class Loader
         $this->_dinamicRequire ( self::$_helpers, self::$_helper_dir, 'Helper' );
         $this->_dinamicInterfaces ( self::$_interfaces, self::$_interfaces_dir );
         $this->_dinamicRequire ( self::$_traits, self::$_traits_dir );
-        $this->_dinamicRequire ( self::$_security, self::$_security_dir );
 
         if ( $this->_dinamicSparks ( self::$_sparks, self::$_sparks_dir ) ) {
             $this->_dinamicInterfaces ( self::$_interfaces, self::$_interfaces_dir );
@@ -142,11 +125,6 @@ final class Loader
     public static function interfaces ()
     {
         self::$_interfaces = func_get_args ();
-    }
-
-    public static function security ()
-    {
-        self::$_security = func_get_args ();
     }
 
     public static function spark ()

@@ -15,4 +15,6 @@ interface iController
 
     public static function asView ();
 
+    public function renderToResponse ( $_context = NULL );
+
 }

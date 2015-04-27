@@ -22,7 +22,7 @@ function url ( $_regex, $_controller )
         $_return->uri        = $_SERVER[ 'REQUEST_URI' ];
         $_return->controller = getControllerUri ( $_return->uri );
         $_return->app        = $_controller;
-    } else {
+    } elseif ( isset( $_controller->controller ) ) {
         $_return->dir = $_controller->dir;
         $_return->url = App::__load__ ( strtoupper ( $_controller->file ), $_return->dir, 'core\\uri\\' . $_controller->controller );
     }

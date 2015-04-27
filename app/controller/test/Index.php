@@ -18,11 +18,14 @@ class Test extends Controller
     public function __init ()
     {
         Template::__init ( $this );
-
         Template::addRegion ( 'title' );
         Template::write ( 'title', 'Test' );
-        //CSRFToken();
-        //var_dump( $_SESSION);
+
         return Template::render ();
+    }
+
+    public function post ()
+    {
+        return $this->Json->write ( [ 0, 1, 2, 3 ] );
     }
 }

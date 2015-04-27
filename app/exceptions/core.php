@@ -6,7 +6,7 @@
  * Time: 12:12 PM
  */
 
-$exception[ 'cantConnectDB' ]        = 'Error Connecting DB';
+$exception[ 'cantConnectDB' ]        = 'Error Connecting DB ';
 $exception[ 'noTransactionActive' ]  = 'Uninitialized transaction.';
 $exception[ 'cantConnectFTP' ]       = 'Error Connecting FTP.';
 $exception[ 'errorTemplateHandler' ] = 'Template cannot be handled.';

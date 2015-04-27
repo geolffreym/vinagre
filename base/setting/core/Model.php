@@ -28,7 +28,6 @@ abstract class Model implements iModel
 
     final public function __construct ()
     {
-        //$this->activeCache ( DB_CACHE );
         $this->db = App::__load__ ( 'Db', 'db/adapter', 'core\\adapter\\db' );
         $this->_name = $this->getModelName ();
 
@@ -49,11 +48,6 @@ abstract class Model implements iModel
         return get_class ( $this );
     }
 
-    final public function save ()
-    {
-        # TODO crear un adaptador que que permita la creacion de objetos (INSERT) mediante la instancia de un
-        # modelo usando obj->save() para crear
-    }
 
     /**Return Class Atributes
      * @return Array
@@ -124,12 +118,6 @@ abstract class Model implements iModel
 
     }
 
-//    final public function activeCache ( $_cache = TRUE )
-//    {
-//        if ( $_cache ) {
-//            $this->cache = App::__load__ ( 'Cache', 'lib' );
-//        }
-//    }
 
     private function _generateAliases ()
     {
