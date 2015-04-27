@@ -31,7 +31,7 @@ NGINX
 
 Environment
 ----------
-In the file public / ini.php should set the enviroment ( desarrolllo , production ) , which is associated directly to the folder / app / enviroment.
+In the file public / ini.php should set the enviroment ( developmment, production ) , which is associated directly to the folder / app / enviroment.
 For the configuration of the work environment , you must modify the files , autoload.php and config.php in the folder of your working environment.
 
 "app/config.ini"
