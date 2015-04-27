@@ -14,9 +14,9 @@ use core\lib\Template;
 class Test extends Controller
 {
     public $Tpl = 'main/Index';
-    public $Model = 'Information';
+    //public $Model = 'Test';
 
-    public function get ()
+    public function __init ()
     {
         Template::__init ( $this );
         Template::addRegion ( 'title' );
@@ -24,15 +24,15 @@ class Test extends Controller
 
         return Template::render ();
     }
-
-    public function getContextData ()
-    {
-        return [ "hola" => "baby" ];
-    }
-
-    public function post ()
-    {
-        return $this->Json->write ( [ 0, 1, 2, 3 ] );
-    }
+//
+//    public function getContextData ()
+//    {
+//        return [ "hola" => "baby" ];
+//    }
+//
+//    public function post ()
+//    {
+//        return $this->Json->write ( [ 0, 1, 2, 3 ] );
+//    }
 
 }

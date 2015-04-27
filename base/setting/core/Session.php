@@ -23,6 +23,7 @@ final class Session
         session_cache_limiter ( SESS_CACHE );
         //session_name ( self::$_session_name );
         $_SESSION[ self::$_session_name ] = [ ];
+        session_write_close ();
     }
 
     public function regenerate ()
@@ -66,48 +67,55 @@ final class Session
 
     public function setData ( $_key, & $_data = [ ] )
     {
+        self::_openSession ();
         $_SESSION[ self::$_session_name ][ $_key ] = $_data;
+        session_write_close ();
     }
 
     public function removeData ( $_key )
     {
+        self::_openSession ();
         unset( $_SESSION[ self::$_session_name ][ $_key ] );
+        session_write_close ();
     }
 
     public function getData ( $_key )
     {
+        self::_openSession ();
         $_data = &$_SESSION[ self::$_session_name ][ $_key ];
+        session_write_close ();
 
         return $_data;
     }
 
     public function appendData ( $_key, & $_data = [ ] )
     {
+        self::_openSession ();
         if ( isset( $_SESSION[ self::$_session_name ][ $_key ] ) ) {
             $_SESSION[ self::$_session_name ][ $_key ][ ] = $_data;
         } else {
             self::setData ( $_key, $_data );
         }
+        session_write_close ();
     }
 
     public function setCookie ( $_name, $_expire )
     {
-        setcookie ( session_name (), $_name, $_expire, '/' );
+        self::_openSession ();
+        setcookie ( self::$_session_name, $_name, $_expire, '/' );
+        session_write_close ();
     }
 
     public function destroy ()
     {
+        self::_openSession ();
         session_unset ();
-        if ( isset( $_COOKIE[ session_name () ] ) ) {
-            setcookie ( session_name (), '', time () - 0xA410, '/' );
+        if ( isset( $_COOKIE[ self::$_session_name ] ) ) {
+            setcookie ( self::$_session_name, '', time () - 0xA410, '/' );
         }
         session_destroy ();
     }
 
-    public function decode ( $_encoded )
-    {
-        return session_decode ( $_encoded );
-    }
 
     private function _isExpired ( $_expire )
     {

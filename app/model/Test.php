@@ -9,7 +9,7 @@
 use core\Model;
 
 
-class Information extends Model
+class Test extends Model
 {
     public $_name_; //By convention the model attributes must be named as _attr_
 

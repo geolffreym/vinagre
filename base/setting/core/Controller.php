@@ -42,7 +42,7 @@ class Controller implements iController
 
         //Init Session /lib
         $this->Session = new Session();
-        //$this->Session->regenerate();
+       // $this->Session->regenerate();
         $this->Session->__init ();
 
         //Init CSRF Token if active
