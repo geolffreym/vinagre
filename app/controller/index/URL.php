@@ -20,8 +20,6 @@ class URL implements iURL
             # Action ex: (?<action>[\w]),  in regexp can be used to target a custom method in class
             url ( '^$', \Index::asView () ),
             url ( '^view$', \IndexUser::asView () ),
-            url ( '^view/user$', \IndexUser::asView () )
-
         ];
     }
 }
