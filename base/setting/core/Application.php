@@ -124,7 +124,7 @@ final class App
      * @param $flush
      * @return String
      */
-    public static function __render__ ( $view, $data = [ ], $dir = 'skull', $flush = FALSE )
+    public static function __render__ ( $view, $data = [ ], $dir = 'templates', $flush = FALSE )
     {
         if ( ( $_exist = self::__exist__ ( $view, 'view/' . $dir ) ) ) {
             self::__vars__ ( $data );

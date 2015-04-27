@@ -153,11 +153,19 @@ final class DBResult implements iDBResult
     public static function execute ( $_query, $_callback )
     {
         if ( self::$_is_connected ) {
+
+            //Async Mysql Queries?
             $_async = ( defined ( 'DB_ASYNC' ) && DB_ASYNC ) || self::$_async;
             self::_queryImpose ( $_query, $_callback );
             asserts ( $_query, "Query Needed", self::$_query );
 
-            $_query = self::$_connection->query ( $_query, $_async ? MYSQLI_ASYNC : MYSQLI_USE_RESULT );
+            //Make Query
+            $_query = self::$_connection->query (
+                $_query,
+                $_async ? MYSQLI_ASYNC : MYSQLI_USE_RESULT
+            );
+
+            //Is async?
             if ( !$_async ) {
                 return App::__callback__ ( $_callback, $_query );
             } else {

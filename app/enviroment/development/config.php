@@ -30,7 +30,7 @@ define( 'DB_USER', 'myuser' );
 define( 'DB_PASS', 'mypass' );
 define( 'DB_DATABASE', 'mydb' );
 define( 'DB_DRIVER', 'mysqli' );
-define( 'DB_ASYNC', TRUE );
+define( 'DB_ASYNC', FALSE );
 define( 'DB_CHARSET', 'UTF-8' );
 define( 'DB_CONNECT_TIMEOUT', 5000 );
 define( 'DB_INIT_COMMAND', '' );

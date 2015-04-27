@@ -34,8 +34,7 @@ class Template
 
     public static function getVar ( $_var )
     {
-        return isset( $GLOBALS[ 'my_vars' ][ $_var ] )
-            ? $GLOBALS[ 'my_vars' ][ $_var ] : NULL;
+        return getVar ( $_var );
     }
 
     public static function writeAssets ( $_assets, $type = 'js' )
@@ -62,14 +61,14 @@ class Template
     }
 
     /**Change Default Skull Template
-     * @param $_skull
+     * @param $_tpl
      */
-    public static function setSkull ( $_skull )
+    public static function setTemplate ( $_tpl )
     {
-        if ( App::__exist__ ( $_skull . '.skull', 'view/skull/' ) ) {
-            self::$_controller->Tpl = $_skull;
+        if ( App::__exist__ ( $_tpl . '.tpl', 'view/templates/' ) ) {
+            self::$_controller->Tpl = $_tpl;
         } else {
-            Common::error503 ( 'Skull ' . $_skull . ' does\'t exist' );
+            Common::error503 ( 'Template ' . $_tpl . ' does\'t exist' );
         }
     }
 
@@ -91,7 +90,7 @@ class Template
     public static function writeView ( $region, $view, $data = [ ], $dir = 'template' )
     {
         if ( isset( self::$_regions[ $region ] ) ) {
-            if ( ( $content = App::__render__ ( $view . '.tpl', $data, $dir ) ) ) {
+            if ( ( $content = App::__render__ ( $view . '.region', $data, $dir ) ) ) {
                 self::write ( $region, $content );
             }
         } else {
@@ -103,8 +102,6 @@ class Template
     {
         if ( isset( $region ) ) {
             $_data = self::_writeOutput ( $region );
-
-            return self::$_controller->renderToResponse ( $_data );
         } else {
             $_data = [ ];
             if ( count ( self::$_regions ) > 0 ) {
@@ -112,9 +109,9 @@ class Template
                     $_data[ ] = self::_writeOutput ( $k );
                 }
             }
-
-            return self::$_controller->renderToResponse ( $_data );
         }
+
+        return self::$_controller->renderToResponse ( $_data );
 
     }
 

@@ -15,7 +15,7 @@ class Controller implements iController
 {
 
     public $Name = NULL;
-    public $Request = [];
+    public $Request = [ ];
     protected $Session = NULL;
     protected $Model = NULL;
     protected $Tpl = NULL;
@@ -62,7 +62,7 @@ class Controller implements iController
         return $this->Name;
     }
 
-    public function __init ( $_context = NULL )
+    public function __init ( $_context = [] )
     {
         return $this->renderToResponse ( $_context );
     }
@@ -94,13 +94,14 @@ class Controller implements iController
         $this->Tpl = $_skull;
     }
 
-    public function renderToResponse ( $_context = NULL )
+    public function renderToResponse ( $_context = [ ] )
     {
-        $_context = !isset( $_context )
-            ? $this->contextData () : $_context;
+
+        if ( !empty( ( $n_context = $this->contextData () ) ) )
+            $_context += $n_context;
 
         if ( !empty( $this->Tpl ) ) {
-            if ( ( $_template = App::__render__ ( $this->Tpl . '.skull', $_context ) ) ) {
+            if ( ( $_template = App::__render__ ( $this->Tpl . '.tpl', $_context ) ) ) {
                 return [ 'template' => $_template ];
             } else {
                 Common::error503 ( $this->Tpl . ' does\'t exist.' );

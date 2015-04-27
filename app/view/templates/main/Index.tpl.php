@@ -12,6 +12,7 @@ use core\lib\Template;
 <html>
 <head>
     <title>
+
         <?php if ( Template::isRegion ( 'title' ) ): ?>
             <?php Template::writeRegion ( 'title' ); ?>
         <?php endif ?>
@@ -20,6 +21,7 @@ use core\lib\Template;
 </head>
 <body>
 <header id="header">
+    <?= getVar ( 'hola' ); ?>
     <?php Template::writeRegion ( 'header' ); ?>
 </header>
 <?php Template::writeRegion ( 'scripts' ); ?>

@@ -20,3 +20,9 @@ function CSRFToken ()
     return '';
 
 }
+
+function getVar ( $_var )
+{
+    return isset( $GLOBALS[ 'my_vars' ][ $_var ] )
+        ? $GLOBALS[ 'my_vars' ][ $_var ] : NULL;
+}
