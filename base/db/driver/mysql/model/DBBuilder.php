@@ -10,9 +10,9 @@ namespace core\db\mysql\model;
 
 //use \core\db\interfaces\iDBBuilder;
 use core\helper\ArrayHelper;
-use core\traits\DataStructure;
 use core\interfaces\db\iDBResult;
 use core\interfaces\iModel;
+use core\traits\DataStructure;
 
 
 final class DBBuilder // implements iDBBuilder
@@ -24,7 +24,7 @@ final class DBBuilder // implements iDBBuilder
     private $_aliases = [ ];
 
     private $DBResult = NULL;
-    private $_temp_model = NULL;
+    private $_model = NULL;
     private $_models = [ ];
     private $_condition = [
         '!=',
@@ -47,6 +47,7 @@ final class DBBuilder // implements iDBBuilder
     {
         $this->DBResult = $DBResult;
     }
+
 
     //Query to string
     public function __toString ()
@@ -94,8 +95,8 @@ final class DBBuilder // implements iDBBuilder
      * */
     public function select ( iModel $_model, $_attr = '*' )
     {
-        $this->_models[ ]  = $_model;
-        $this->_temp_model = $_model;
+        $this->_models[ ] = $_model;
+        $this->_model     = $_model;
         $this->_appendAttribute ( $_model, $_attr, TRUE );
 
         return $this;
@@ -105,11 +106,14 @@ final class DBBuilder // implements iDBBuilder
      * @param $_model
      * @return $this
      * */
-    public function from ( $_model )
+    public function from ( $_model = NULL )
     {
+        if ( !isset( $_model ) && isset( $this->_model ) )
+            $_model = $this->_model;
+
         if ( $_model instanceof iModel ) {
+            $this->_model            = $_model;
             $_model                  = $this->_filterNameModel ( $_model );
-            $this->_temp_model       = $_model;
             $this->_query [ 'from' ] = ' FROM ' . $_model;
         } elseif ( isset( $_model[ 'attr' ] ) ) {
             $this->_query [ 'from' ] = ' FROM ' . $_model[ 'attr' ];
@@ -145,7 +149,7 @@ final class DBBuilder // implements iDBBuilder
 
         }
         $this->_models[ ]          = $_model;
-        $this->_temp_model         = $_model;
+        $this->_model              = $_model;
         $_model                    = $this->_filterNameModel ( $_model );
         $this->_query[ 'join' ][ ] = ' ' . $_type . '  JOIN ' . $_model;
 
@@ -159,6 +163,7 @@ final class DBBuilder // implements iDBBuilder
      * */
     public function values ( iModel $_model, $_attr )
     {
+        $this->_query[ 'select' ] = NULL;
         $this->_appendAttribute ( $_model, $_attr, TRUE );
 
         return $this;
@@ -303,8 +308,8 @@ final class DBBuilder // implements iDBBuilder
      * */
     private function _prepareValues ( $_attr = [ ] )
     {
-        if ( isset( $this->_temp_model ) ) {
-            return $this->_temp_model->prepareFields ( $_attr );
+        if ( isset( $this->_model ) ) {
+            return $this->_model->prepareFields ( $_attr );
         }
 
         return $_attr;
@@ -318,7 +323,7 @@ final class DBBuilder // implements iDBBuilder
     private function _joinAttr ( $_model_attr = [ ], $_char = '=' )
     {
         if ( is_array ( $_model_attr ) ) {
-            return ArrayHelper::generatorToArray ( $this->mergeKeyValue ( $_model_attr, ' ' . $_char . ' ' ) );
+            return ArrayHelper::generatorToArray ( $this->mergeKeyValue ( $_model_attr, wrapStr ( $_char, ' ' ) ) );
         }
 
         return $_model_attr;
@@ -336,11 +341,12 @@ final class DBBuilder // implements iDBBuilder
         ) {
             $_attr = $_model->prepareFields ( $_attr );
             $_attr = $_model->validateField ( $_attr, $_array );
+            $_attr = count ( $_attr ) > 0 && $_attr ? $_attr : [ '*' ];
 
-            return $this->_findAliases ( $_attr );
         }
 
         return $this->_findAliases ( $_attr );
+
     }
 
 
@@ -365,12 +371,14 @@ final class DBBuilder // implements iDBBuilder
     {
         $this->_appendAliases ( $_model );
         $_attr = $this->_filterAttributeModel ( $_model, $_attr, $_array );
+
         if ( isset( $this->_query[ 'select' ] ) ) {
             $this->_query[ 'select' ] .= ',' . $this->_implodeAttr ( $_attr );
         } else {
             $this->_query[ 'select' ] = 'SELECT ' . $this->_implodeAttr ( $_attr );
         }
     }
+
 
     /**Set aliases for query
      * @param $_attr

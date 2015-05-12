@@ -26,20 +26,22 @@ define( 'DEFAULT_500_PAGE', 'error505.tpl' );
 
 //DB (Db Install needed)
 define( 'DB_HOST', 'localhost' );
-define( 'DB_USER', 'myuser' );
-define( 'DB_PASS', 'mypass' );
+define( 'DB_USER', 'root' );
+define( 'DB_PASS', 'gmena5289' );
 define( 'DB_DATABASE', 'mydb' );
 define( 'DB_DRIVER', 'mysqli' );
 define( 'DB_ASYNC', FALSE );
 define( 'DB_CHARSET', 'UTF-8' );
+
+//Valid for mysqli -> http://php.net/manual/en/mysqli.options.php
 define( 'DB_CONNECT_TIMEOUT', 5000 );
-define( 'DB_INIT_COMMAND', '' );
+define( 'DB_INIT_COMMAND', 'SET NAMES utf8' );
 define( 'DB_READ_DEFAULT_FILE', '' );
 
 
 //SESSION
 define( 'SESS_NAME', 'vinagre_session' );
-define( 'SESS_EXPIRE', 0X2A30 ); // Default 180 (10800 Seconds) Minutes
+define( 'SESS_EXPIRE', 60 ); // Default 180 Minutes (10800 Seconds)
 define( 'SESS_CACHE', 'public' );
 //http://php.net/manual/es/function.session-cache-limiter.php
 

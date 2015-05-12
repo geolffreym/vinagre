@@ -44,7 +44,7 @@ final class DBConnection implements iDBConnection
         if ( $_options && !empty( $_options ) ) {
             foreach ( $_options as $_name => $_option ) {
                 if ( isset( $_option ) ) {
-                    self::$_connection->options ( $_name, $_options );
+                    self::$_connection->options ( $_name, $_option );
                 }
             }
         }

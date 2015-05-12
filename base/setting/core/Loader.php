@@ -107,28 +107,28 @@ final class Loader
 
     }
 
-    public static function libraries ()
+    public static function libraries ( ...$args )
     {
-        self::$_libraries = func_get_args ();
+        self::$_libraries = $args;
     }
 
-    public static function helpers ()
+    public static function helpers ( ...$args )
     {
-        self::$_helpers = func_get_args ();
+        self::$_helpers = $args;
     }
 
-    public static function traits ()
+    public static function traits ( ...$args )
     {
-        self::$_traits = func_get_args ();
+        self::$_traits = $args;
     }
 
-    public static function interfaces ()
+    public static function interfaces ( ...$args )
     {
-        self::$_interfaces = func_get_args ();
+        self::$_interfaces = $args;
     }
 
-    public static function spark ()
+    public static function spark ( ...$args )
     {
-        self::$_sparks = func_get_args ();
+        self::$_sparks = $args;
     }
 } 

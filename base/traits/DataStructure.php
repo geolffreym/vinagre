@@ -163,10 +163,10 @@ trait DataStructure
         return $array;
     }
 
-    public static function arrayDistribute ()
+    public static function arrayDistribute (...$args)
     {
         $_new_array = [ ];
-        foreach ( func_get_args () as $k => $_args ) {
+        foreach ( $args as $k => $_args ) {
             if ( !is_array ( $_args ) )
                 continue;
 

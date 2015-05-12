@@ -9,6 +9,7 @@
 namespace core;
 
 use core\interfaces\iController;
+use core\interfaces\iModel;
 use core\security\CSRFToken;
 
 class Controller implements iController
@@ -42,7 +43,6 @@ class Controller implements iController
 
         //Init Session /lib
         $this->Session = new Session();
-       // $this->Session->regenerate();
         $this->Session->__init ();
 
         //Init CSRF Token if active
@@ -52,8 +52,11 @@ class Controller implements iController
 
         //Init Model
         if ( isset( $this->Model ) ) {
-            if ( App::__exist__ ( $this->Model, 'model' ) )
-                $this->Model = App::__instance__ ( $this->Model, 'model' );
+            if ( !$this->Model instanceof iModel ) {
+                if ( is_string ( $this->Model ) ) {
+                    $this->Model = App::__load__ ( $this->Model, 'model' );
+                }
+            }
         }
     }
 
@@ -62,7 +65,7 @@ class Controller implements iController
         return $this->Name;
     }
 
-    public function __init ( $_context = [] )
+    public function __init ( $_context = [ ] )
     {
         return $this->renderToResponse ( $_context );
     }

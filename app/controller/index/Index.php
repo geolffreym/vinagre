@@ -12,7 +12,7 @@ use core\lib\Template;
 class Index extends Controller
 {
     public $Tpl = 'main/Index';
-    public $Model = 'Information';
+    //public $Model = 'Information';
 }
 
 

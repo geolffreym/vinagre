@@ -10,7 +10,7 @@ namespace core\uri\test;
 use core\App;
 use core\interfaces\iURL;
 
-App::__require__ ( 'Index', 'controller/test' );
+App::__require__ ( 'Test', 'controller/test' );
 
 class URL implements iURL
 {

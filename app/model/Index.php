@@ -16,27 +16,27 @@ class Index extends Model
     public $_id_;
     public $_name_;
 
-//    public function getId ()
-//    {
-//        $Nested = clone $this->db->Builder;
-//        $Real   = clone $this->Builder;
-//
-//        $Q            = new QHelper;
-//        $_information = new Information;
-//
-//        $Nested
-//            ->select ( $_information, [ 'name' ] )
-//            ->from ( $_information );
-//
-//        echo $Real
-//            ->select ( $this, [ 'id', $Q->max ( $this( 'id' ) ), $Q->lower ( $Q->concat ( [ $_information( 'name' ), $_information( 'name' ) ] ) ) ] )
-//            ->from ( $Q->nested ( $Nested, $_information->getAlias () ) )
-//            ->join ( $_information, [ 'name' ] )
-//            ->on ( [ $_information( 'id' ) => $this( 'id' ) ] )
-//            ->group ( [ $_information( 'name' ) ] )
-//            ->where ( $Q->in ( $_information( 'id' ), [ 5, 6 ] ) )
-//            ->order ( [ $_information( 'id' ), $this( 'id' ) ] )->result ()->row();
-//
-//    }
+    public function getId ()
+    {
+        $Nested = clone $this->db->Builder;
+        $Real   = clone $this->Builder;
+
+        $Q            = new QHelper;
+        $_information = new Information;
+
+        $Nested
+            ->select ( $_information, [ 'name' ] )
+            ->from ( $_information );
+
+        echo $Real
+            ->select ( $this, [ 'id', $Q->max ( $this( 'id' ) ), $Q->lower ( $Q->concat ( [ $_information( 'name' ), $_information( 'name' ) ] ) ) ] )
+            ->from ( $Q->nested ( $Nested, $_information->getAlias () ) )
+            ->join ( $_information, [ 'name' ] )
+            ->on ( [ $_information( 'id' ) => $this( 'id' ) ] )
+            ->group ( [ $_information( 'name' ) ] )
+            ->where ( $Q->in ( $_information( 'id' ), [ 5, 6 ] ) )
+            ->order ( [ $_information( 'id' ), $this( 'id' ) ] )->result ()->row();
+
+    }
 
 }

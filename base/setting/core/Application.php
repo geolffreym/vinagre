@@ -54,22 +54,19 @@ final class App
             return self::$_class[ $_class ];
         }
 
-        if ( ( $_exist_ = self::__exist__ ( $_class, $_dir ) ) ) {
+        if ( ( self::__exist__ ( $_class, $_dir ) ) ) {
             return self::__instance__ ( $_class, $_dir, $_namespace );
         } else {
             return FALSE;
         }
-
     }
 
     public static function __instance__ ( $_class, $_dir, $_namespace = NULL, $_param = FALSE )
     {
         if ( self::__require__ ( $_class, $_dir ) ) {
-            // if ( !class_exists ( $_class ) ) {
             $_namespace = isset( $_namespace ) ? $_namespace . '\\' . $_class : $_class;
 
             return $_param ? new $_namespace( $_param ) : new $_namespace;
-            // }
 
         }
 

@@ -9,16 +9,22 @@
 namespace core\adapter\db;
 
 use core\App;
+use core\interfaces\db\iDBAdapter;
+use core\interfaces\iModel;
+
+App::__require__ ( 'iDBAdapter', 'db/interface' );
 
 # TODO Crear adaptador que integre DBBuilder y DBResult similar a django ORM (filter, get, etc..)
-class Db
+class Db implements iDBAdapter
 {
+    public $_db = NULL;
+    private $_model = NULL;
+    private $_query = NULL;
 
-    private $_db = NULL;
-
-    public function __construct ()
+    final public function __construct ( iModel $Model )
     {
-        $this->_db = $this->switchDb ( DB_DRIVER );
+        $this->_model = $Model;
+        $this->_db    = $this->switchDb ( DB_DRIVER );
     }
 
     final public function switchDb ( $_driver )
@@ -35,5 +41,50 @@ class Db
         }
     }
 
+    final public function filter ( $_filter )
+    {
 
-} 
+    }
+
+    final public function get ( $_filter = NULL )
+    {
+        $this->_query = $this->_db->Builder
+            ->select ( $this->_model )
+            ->from ( $this->_model );
+
+        $this->_handleCondition ( $_filter );
+
+        return $this;
+    }
+
+    final public function values ( ...$_values )
+    {
+        if ( isset( $this->_query ) )
+            $this->_db->Builder->values ( $this->_model, $_values );
+
+        return $this;
+    }
+
+    final public function query ()
+    {
+        return $this->_query;
+    }
+
+
+    final public function prepare ( $_field )
+    {
+        return $this->_db->Result->prepare ( $_field );
+    }
+
+    final private function _handleCondition ( $_filter = NULL )
+    {
+        if ( isset( $_filter ) ) {
+            if ( isset( $this->_query ) ) {
+                $this->_query->where ( $_filter );
+            }
+        }
+
+    }
+
+
+}

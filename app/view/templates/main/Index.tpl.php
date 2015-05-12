@@ -21,8 +21,11 @@ use core\lib\Template;
 </head>
 <body>
 <header id="header">
-    <?= getVar ( 'hola' ); ?>
-    <?php Template::writeRegion ( 'header' ); ?>
+    <form action="/test" method="post">
+        <!--        <input type="hidden" name="csrf_token" value="123">-->
+        <?= CSRFToken (); ?>
+        <input type="submit"/>
+    </form>
 </header>
 <?php Template::writeRegion ( 'scripts' ); ?>
 </body>

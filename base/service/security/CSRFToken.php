@@ -24,12 +24,7 @@ final class CSRFToken implements iService
 
         $_sess_name     = isset( $_session ) ? $_session : self::$_session_name;
         self::$_session = new Session;
-        self::$_session->setSessionName ( $_sess_name );
-
-        if ( !self::$_session->exist ( $_sess_name ) ) {
-            self::$_session->__init ( $_sess_name );
-        }
-
+        self::$_session->__init ( $_sess_name );
         self::$_is_active_session = self::$_session->isActive ();
     }
 

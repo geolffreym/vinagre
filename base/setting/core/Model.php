@@ -10,6 +10,7 @@ namespace core;
 
 App::__require__ ( 'DataStructure', 'traits' );
 
+use core\interfaces\db\iDBAdapter;
 use core\interfaces\iModel;
 use core\traits\DataStructure;
 
@@ -26,9 +27,9 @@ abstract class Model implements iModel
     protected $_name = NULL;
 
 
-    final public function __construct ()
+    public function __construct ()
     {
-        $this->db = App::__load__ ( 'Db', 'db/adapter', 'core\\adapter\\db' );
+        $this->db    = App::__instance__ ( 'Db', 'db/adapter', 'core\\adapter\\db', $this );
         $this->_name = $this->getModelName ();
 
     }
@@ -82,7 +83,8 @@ abstract class Model implements iModel
     {
         $_new = [ ];
         foreach ( $fields as $key => $val ) {
-            $_new[ $key ] = $this->db->Result->prepare ( $val );
+            $_new[ $this->__invoke ( $key ) ] = $val instanceof iDBAdapter
+                ? $val->query () : $this->db->prepare ( $val );
         }
 
         return $_new;

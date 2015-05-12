@@ -20,9 +20,15 @@ final class Session
     {
         self::_openSession ();
         self::$_session_name = $_session_name ? $_session_name : SESS_NAME;
+
         session_cache_limiter ( SESS_CACHE );
-        //session_name ( self::$_session_name );
-        $_SESSION[ self::$_session_name ] = [ ];
+        session_cache_expire ( SESS_EXPIRE );
+        session_name ( self::$_session_name );
+
+
+        if ( !isset( $_SESSION[ self::$_session_name ] ) )
+            $_SESSION[ self::$_session_name ] = [ ];
+
         session_write_close ();
     }
 
@@ -82,7 +88,10 @@ final class Session
     public function getData ( $_key )
     {
         self::_openSession ();
-        $_data = &$_SESSION[ self::$_session_name ][ $_key ];
+        $_data = FALSE;
+        if ( isset( $_SESSION[ self::$_session_name ][ $_key ] ) )
+            $_data = &$_SESSION[ self::$_session_name ][ $_key ];
+
         session_write_close ();
 
         return $_data;
@@ -119,9 +128,10 @@ final class Session
 
     private function _isExpired ( $_expire )
     {
+        self::_openSession ();
         if ( !isset( $_SESSION[ 'regenerated' ] ) ) {
             $_SESSION[ 'regenerated' ] = time ();
-            session_cache_expire ( ( $_expire / 0x3C ) );
+            session_cache_expire ( ( $_expire ) );
 
             return FALSE;
         }
@@ -131,6 +141,7 @@ final class Session
         if ( $_SESSION[ 'regenerated' ] <= $expiry_time ) {
             return TRUE;
         }
+        session_write_close ();
 
         return FALSE;
     }

@@ -10,6 +10,7 @@
 namespace core\db\mysql\model;
 
 use core\App;
+use core\Config;
 use core\interfaces\db\iDBConf;
 
 App::__interface__ ( 'iDBConf', 'db/interface' );
@@ -66,9 +67,9 @@ final class DBConf implements iDBConf
     public static function setOptions ()
     {
         self::$options = [
-            0 => defined ( 'DB_CONNECT_TIMEOUT' ) ? DB_CONNECT_TIMEOUT : NULL,
-            3 => defined ( 'DB_INIT_COMMAND' ) ? DB_INIT_COMMAND : NULL,
-            4 => defined ( 'DB_READ_DEFAULT_FILE' ) ? DB_READ_DEFAULT_FILE : NULL
+            MYSQLI_OPT_CONNECT_TIMEOUT => Config::findConfig ( 'DB_TIMEOUT', [ 'DB_CONNECT_TIMEOUT' ] ) ? DB_CONNECT_TIMEOUT : NULL,
+            MYSQLI_INIT_COMMAND        => Config::findConfig ( 'DB_INIT_COMMAND', [ 'DB_INIT_COMMAND' ] ) ? DB_INIT_COMMAND : NULL,
+            MYSQLI_READ_DEFAULT_FILE   => Config::findConfig ( 'DB_READ', [ 'DB_READ_DEFAULT_FILE' ] ) ? DB_READ_DEFAULT_FILE : NULL
         ];
     }
 
